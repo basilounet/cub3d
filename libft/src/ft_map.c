@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:45:27 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/04 13:55:00 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:54:55 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_print_map(char **map)
 		return ;
 	while (map[i])
 	{
-		ft_printf("%s\n", map[i]);
+		ft_printf("%s", map[i]);
 		i++;
 	}
 }

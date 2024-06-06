@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   unleak.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/06 14:59:08 by bvasseur         ###   ########.fr       */
+/*   Created: 2024/06/06 14:23:45 by bvasseur          #+#    #+#             */
+/*   Updated: 2024/06/06 14:45:34 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int32_t main(void)
+void    unleak(t_cub *cb)
 {
-	t_cub	cb;
-	
-	parse(&cb);
-	
-	unleak(&cb);
-	return (0);
+    if (cb->map.map)
+        ft_free_map(cb->map.map, cb->map.height);
 }

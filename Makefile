@@ -2,7 +2,10 @@
 
 SRC =	utils/utils.c \
 		parser/parser.c \
-		execution/execution.c
+		execution/raycaster.c \
+		utils/vector_utils.c \
+		unleak.c \
+		error.c
 
 MAIN = main.c
 
@@ -179,4 +182,4 @@ define animation_0
 	@echo -n "$(BASE_COLOR)"
 endef
 
-.PHONY : all clean fclean re
+.PHONY : all libmlx clean fclean re
