@@ -3,6 +3,9 @@
 SRC =	utils/utils.c \
 		parser/parser.c \
 		execution/raycaster.c \
+		execution/movment.c \
+		execution/ft_hooks.c \
+		drawing/draw_shape.c \
 		utils/vector_utils.c \
 		unleak.c \
 		error.c

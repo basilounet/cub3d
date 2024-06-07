@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/06 16:37:25 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:20:45 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdio.h>
 # define WIDTH 512
 # define HEIGHT 512
+# define MINIMAP_WIDTH 500
+# define MINIMAP_HEIGHT 300
+# define MINIMAP_SQUARE_SIZE 20
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -60,9 +63,17 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t			*mlx;
+	mlx_image_t		*image;
+	mlx_image_t		*minimap;
 	t_map			map;
 	t_player		player;
 }					t_cub;
+
+typedef struct s_rectangle
+{
+	t_vector		pos;
+	t_vector		size;
+}					t_rectangle;
 
 /*=============== PARSER ===============*/
 
@@ -71,6 +82,22 @@ void				parse(t_cub *cb);
 /*=============== RAYTRACER ===============*/
 
 void				raycaster(t_cub *cb);
+
+/*=============== MOVMENT ===============*/
+
+void				change_pos(t_cub *cb, double x_offset, double y_offset);
+
+/*=============== MLX ===============*/
+
+void				ft_loop_hook(void *param);
+void				ft_key_hook(mlx_key_data_t keydata, void *param);
+
+/*=============== DRAW ===============*/
+
+void				draw_rectangle(mlx_image_t *img, t_vector pos,
+						t_vector size, int color);
+void				draw_empty_rectangle(mlx_image_t *img, t_vector pos,
+						t_vector size, int color);
 
 /*=============== UTILS ===============*/
 
