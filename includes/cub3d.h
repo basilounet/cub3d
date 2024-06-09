@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/07 20:20:45 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:33:51 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # define HEIGHT 512
 # define MINIMAP_WIDTH 500
 # define MINIMAP_HEIGHT 300
-# define MINIMAP_SQUARE_SIZE 20
+# define MINIMAP_SQUARE_SIZE 30
+# define ROTATION_SPEED 0.08
+# define MOVE_SPEED 0.11
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -50,7 +52,7 @@ typedef struct s_player
 typedef struct s_map
 {
 	char			**map;
-	int				widht;
+	int				width;
 	int				height;
 	int				floor_color;
 	int				ceiling_color;
@@ -85,7 +87,7 @@ void				raycaster(t_cub *cb);
 
 /*=============== MOVMENT ===============*/
 
-void				change_pos(t_cub *cb, double x_offset, double y_offset);
+void				change_pos(t_cub *cb);
 
 /*=============== MLX ===============*/
 
@@ -94,10 +96,13 @@ void				ft_key_hook(mlx_key_data_t keydata, void *param);
 
 /*=============== DRAW ===============*/
 
+void	draw_map(t_cub *cb);
 void				draw_rectangle(mlx_image_t *img, t_vector pos,
 						t_vector size, int color);
 void				draw_empty_rectangle(mlx_image_t *img, t_vector pos,
 						t_vector size, int color);
+void				draw_triangle(mlx_image_t *img, t_vector pos,
+						t_vector facing, int color);
 
 /*=============== UTILS ===============*/
 
@@ -105,6 +110,7 @@ t_vector			set_vector(double x, double y);
 t_vector			add_vector(t_vector vec1, t_vector vec2);
 t_vector			substract_vector(t_vector vec1, t_vector vec2);
 t_vector			multiply_vector(t_vector vec1, t_vector vec2);
+t_vector			normalize_vector(t_vector v);
 
 /*=============== UNLEAK ===============*/
 

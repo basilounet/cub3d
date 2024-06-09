@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/07 18:45:43 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:20:52 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	launch_mlx(t_cub *cb)
 {
 	cb->player.pos = set_vector(5, 5);
+    cb->player.facing = set_vector(1, 0);
+
 //	mlx_set_setting(MLX_MAXIMIZED, true);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "3dcub", false);
@@ -26,7 +28,7 @@ void	launch_mlx(t_cub *cb)
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
 	
-	ft_printf("height : %d, widht %d\n", cb->map.height, cb->map.widht);
+	ft_printf("height : %d, widht %d\n", cb->map.height, cb->map.width);
 	
 	mlx_loop(cb->mlx);
 	mlx_delete_image(cb->mlx, cb->image);
