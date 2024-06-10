@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/09 16:33:51 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:05:57 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 # include <libft.h>
 # include <math.h>
 # include <stdio.h>
-# define WIDTH 512
-# define HEIGHT 512
-# define MINIMAP_WIDTH 500
+# define WIDTH 612
+# define HEIGHT 612
+# define MINIMAP_WIDTH 600
 # define MINIMAP_HEIGHT 300
 # define MINIMAP_SQUARE_SIZE 30
 # define ROTATION_SPEED 0.08
+# define MOUSE_ROTATION_SPEED 0.001
 # define MOVE_SPEED 0.11
 
 # ifndef DEBUG

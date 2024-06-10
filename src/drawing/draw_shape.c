@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:24:38 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/09 16:36:55 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:26:19 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void	draw_line(mlx_image_t *img, t_vector p0, t_vector p1, int color)
 void	draw_triangle(mlx_image_t *img, t_vector pos, t_vector facing,
 		int color)
 {
-	t_vector	points[3];
+	double		base_length;
 	double		magnitude;
 	t_vector	direction;
-	double		base_length;
+	t_vector	points[3];
 
+	base_length = (MINIMAP_SQUARE_SIZE - MINIMAP_SQUARE_SIZE / 3) / 2;
 	magnitude = sqrt(facing.x * facing.x + facing.y * facing.y);
 	direction = set_vector(facing.x / magnitude, facing.y / magnitude);
-	base_length = MINIMAP_SQUARE_SIZE - MINIMAP_SQUARE_SIZE / 3;
-	points[0] = set_vector(pos.x + direction.x * MINIMAP_SQUARE_SIZE, pos.y
-			+ direction.y * MINIMAP_SQUARE_SIZE);
+	points[0] = set_vector(pos.x + direction.x * MINIMAP_SQUARE_SIZE / 2, pos.y
+			+ direction.y * MINIMAP_SQUARE_SIZE / 2);
 	points[1] = set_vector(pos.x - direction.y * base_length / 2, pos.y
 			+ direction.x * base_length / 2);
 	points[2] = set_vector(pos.x + direction.y * base_length / 2, pos.y
@@ -89,6 +89,7 @@ void	draw_rectangle(mlx_image_t *img, t_vector pos, t_vector size, int color)
 		y++;
 	}
 }
+
 void	draw_empty_rectangle(mlx_image_t *img, t_vector pos, t_vector size,
 		int color)
 {

@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 23:00:47 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/03/14 17:31:26 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:53:17 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,9 @@ long	ft_min(int a, int b)
 	if (a < b)
 		return (a);
 	return (b);
+}
+
+int	ft_clamp(int value, int min, int max)
+{
+	return (ft_max(min, ft_min(max, value)));
 }
