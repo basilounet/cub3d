@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/10 14:05:57 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:38:14 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 enum				e_errors
 {
 	MALLOC_ERROR = 1,
+	PATH_ERROR = 2,
 	FINAL,
 };
 
