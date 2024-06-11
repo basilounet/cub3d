@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:03:38 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/09 15:32:47 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:01:00 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,20 @@ t_vector	multiply_vector(t_vector vec1, t_vector vec2)
 	return (result_vector);
 }
 
-t_vector	normalize_vector(t_vector v)
+t_vector	normalize_vector(t_vector vec)
 {
 	double	length;
 
-	length = sqrt(v.x * v.x + v.y * v.y);
+	length = sqrt(vec.x * vec.x + vec.y * vec.y);
 	if (length != 0)
 	{
-		v.x /= length;
-		v.y /= length;
+		vec.x /= length;
+		vec.y /= length;
 	}
-    return (v);
+    return (vec);
+}
+
+double	vector_length(t_vector vec)
+{
+	return (sqrt(vec.x * vec.x + vec.y * vec.y));
 }

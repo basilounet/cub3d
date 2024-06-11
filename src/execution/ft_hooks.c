@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/10 13:41:38 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:16:02 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	update_player_facing(t_cub *cb)
 
 	angle = 0;
 	mlx_get_mouse_pos(cb->mlx, &x, &y);
-	angle += (x - WIDTH / 2) * MOUSE_ROTATION_SPEED;
+	if (BONUS)
+		angle += (x - WIDTH / 2) * MOUSE_ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 		angle -= ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
@@ -36,7 +37,8 @@ void	update_player_facing(t_cub *cb)
 		cb->player.facing.x = cos(current_angle);
 		cb->player.facing.y = sin(current_angle);
 	}
-	mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
+	if (BONUS)
+		mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
 }
 
 void	ft_loop_hook(void *param)
@@ -47,8 +49,10 @@ void	ft_loop_hook(void *param)
 	update_player_facing(cb);
 	change_pos(cb);
 	// printf("facing x : %f, y : %f\n", cb->player.facing.x, cb->player.facing.y);
-	draw_map(cb);
-	draw_rectangle(cb->minimap, set_vector(MINIMAP_WIDTH / 2 - 3, MINIMAP_HEIGHT / 2 - 3), set_vector(6, 6), 0xFFFFFFFF);
+	if (BONUS)
+		draw_map(cb);
+	raycaster(cb);
+	// draw_rectangle(cb->minimap, set_vector(MINIMAP_WIDTH / 2 - 3, MINIMAP_HEIGHT / 2 - 3), set_vector(6, 6), 0xFFFFFFFF);
 }
 
 void	ft_key_hook(mlx_key_data_t keydata, void *param)

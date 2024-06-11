@@ -6,6 +6,7 @@ SRC =	utils/utils.c \
 		execution/movment.c \
 		execution/ft_hooks.c \
 		drawing/draw_shape.c \
+		drawing/draw_lines.c \
 		utils/vector_utils.c \
 		unleak.c \
 		error.c

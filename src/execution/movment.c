@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/10 14:01:46 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:24:01 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	draw_map(t_cub *cb)
 {
 	int	x;
 	int	y;
-
+	
 	ft_memset(cb->minimap->pixels, 0xFFFFFFFF, cb->minimap->height
-		* cb->minimap->width * 4);
+		* cb->minimap->width * 4);	
 	y = cb->player.pos.y - MINIMAP_HEIGHT / MINIMAP_SQUARE_SIZE / 2 - 1;
 	while (y < cb->player.pos.y + MINIMAP_HEIGHT / MINIMAP_SQUARE_SIZE / 2 + 2)
 	{

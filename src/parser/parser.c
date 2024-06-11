@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/09 15:18:58 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:52:14 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    parse(t_cub *cb)
 {
 	ft_memset(cb, 0, sizeof(t_cub));
-    cb->map.map = ft_slurp("maps/map.cub");
+    cb->map.map = ft_slurp("maps/subject.cub");
     if (!cb->map.map)
         error(cb, MALLOC_ERROR);
     cb->map.width = ft_strlen(cb->map.map[0]);

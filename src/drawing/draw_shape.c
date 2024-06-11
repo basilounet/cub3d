@@ -6,43 +6,17 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:24:38 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/09 18:26:19 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:35:42 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	draw_line(mlx_image_t *img, t_vector p0, t_vector p1, int color)
+void	try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, int color)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-
-	dx = ft_abs(p1.x - p0.x);
-	dy = ft_abs(p1.y - p0.y);
-	sx = (p0.x < p1.x) ? 1 : -1;
-	sy = (p0.y < p1.y) ? 1 : -1;
-	err = dx - dy;
-	while (1)
-	{
-		mlx_put_pixel(img, p0.x, p0.y, color);
-		if (p0.x == p1.x && p0.y == p1.y)
-			break ;
-		e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			p0.x += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			p0.y += sy;
-		}
-	}
+	if (x < 0 || x > img->width || y < 0 || y > img->height)
+		return ;
+	mlx_put_pixel(img, x, y, color);
 }
 
 void	draw_triangle(mlx_image_t *img, t_vector pos, t_vector facing,
@@ -82,7 +56,7 @@ void	draw_rectangle(mlx_image_t *img, t_vector pos, t_vector size, int color)
 		x = pos.x;
 		while (x < pos.x + size.x)
 		{
-			if (x > 0 && x < img->width && y > 0 && y < img->height)
+			if (x >= 0 && x < img->width && y >= 0 && y < img->height)
 				mlx_put_pixel(img, x, y, color);
 			x++;
 		}
@@ -102,7 +76,7 @@ void	draw_empty_rectangle(mlx_image_t *img, t_vector pos, t_vector size,
 		x = pos.x;
 		while (x < pos.x + size.x)
 		{
-			if ((x > 0 && x < img->width && y > 0 && y < img->height)
+			if ((x >= 0 && x < img->width && y >= 0 && y < img->height)
 				&& ((x < pos.x + 5 || x > pos.x + size.x - 5) || (y < pos.y + 5
 						|| y > pos.y + size.y - 5)))
 				mlx_put_pixel(img, x, y, color);

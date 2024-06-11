@@ -5,3 +5,4 @@ MLX42/
 *.out
 .vscode/
 test/
+cub3D

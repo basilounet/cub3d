@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/10 14:05:57 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:15:08 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,19 @@
 # include <stdio.h>
 # define WIDTH 612
 # define HEIGHT 612
-# define MINIMAP_WIDTH 600
-# define MINIMAP_HEIGHT 300
-# define MINIMAP_SQUARE_SIZE 30
-# define ROTATION_SPEED 0.08
-# define MOUSE_ROTATION_SPEED 0.001
-# define MOVE_SPEED 0.11
+# define MINIMAP_WIDTH 150
+# define MINIMAP_HEIGHT 150
+# define MINIMAP_SQUARE_SIZE 15
+# define ROTATION_SPEED 0.04
+# define MOUSE_ROTATION_SPEED 0.0005
+# define MOVE_SPEED 0.08
 
 # ifndef DEBUG
 #  define DEBUG 0
+# endif
+
+# ifndef BONUS
+#  define BONUS 1
 # endif
 
 enum				e_errors
@@ -41,6 +45,21 @@ typedef struct s_vector
 	double			x;
 	double			y;
 }					t_vector;
+
+typedef struct s_raycaster
+{
+	int				step_x;
+	int				step_y;
+	int				map_x;
+	int				map_y;
+	t_vector		camera;
+	t_vector		raydir;
+	t_vector		side_dist;
+	t_vector		delta_dist;
+	double			perpWallDist;
+	int				hit;
+	int				side;
+}					t_raycaster;
 
 typedef struct s_player
 {
@@ -72,11 +91,16 @@ typedef struct s_cub
 	t_player		player;
 }					t_cub;
 
-typedef struct s_rectangle
+typedef struct s_cartesian_equation
 {
-	t_vector		pos;
-	t_vector		size;
-}					t_rectangle;
+	t_vector		pos1;
+	t_vector		pos2;
+	int				dx;
+	int				dy;
+	int				c;
+	int				x;
+	int				y;
+}					t_ce;
 
 /*=============== PARSER ===============*/
 
@@ -97,13 +121,17 @@ void				ft_key_hook(mlx_key_data_t keydata, void *param);
 
 /*=============== DRAW ===============*/
 
-void	draw_map(t_cub *cb);
+void				try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y,
+						int color);
+void				draw_map(t_cub *cb);
 void				draw_rectangle(mlx_image_t *img, t_vector pos,
 						t_vector size, int color);
 void				draw_empty_rectangle(mlx_image_t *img, t_vector pos,
 						t_vector size, int color);
 void				draw_triangle(mlx_image_t *img, t_vector pos,
 						t_vector facing, int color);
+void				draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
+						int color);
 
 /*=============== UTILS ===============*/
 
@@ -112,6 +140,7 @@ t_vector			add_vector(t_vector vec1, t_vector vec2);
 t_vector			substract_vector(t_vector vec1, t_vector vec2);
 t_vector			multiply_vector(t_vector vec1, t_vector vec2);
 t_vector			normalize_vector(t_vector v);
+double				vector_length(t_vector vec);
 
 /*=============== UNLEAK ===============*/
 
