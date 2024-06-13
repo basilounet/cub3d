@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/11 16:15:08 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:30:47 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define MINIMAP_SQUARE_SIZE 15
 # define ROTATION_SPEED 0.04
 # define MOUSE_ROTATION_SPEED 0.0005
-# define MOVE_SPEED 0.08
+# define MOVE_SPEED 0.07
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -59,6 +59,9 @@ typedef struct s_raycaster
 	double			perpWallDist;
 	int				hit;
 	int				side;
+	int				lineHeight;
+	int				drawStart;
+	int				drawEnd;
 }					t_raycaster;
 
 typedef struct s_player
@@ -66,6 +69,7 @@ typedef struct s_player
 	t_vector		pos;
 	t_vector		facing;
 	t_vector		plane;
+	double			length_plane;
 	int				fov;
 }					t_player;
 
@@ -91,16 +95,15 @@ typedef struct s_cub
 	t_player		player;
 }					t_cub;
 
-typedef struct s_cartesian_equation
+typedef struct s_bresenham
 {
-	t_vector		pos1;
-	t_vector		pos2;
 	int				dx;
 	int				dy;
-	int				c;
-	int				x;
-	int				y;
-}					t_ce;
+	int				sx;
+	int				sy;
+	int				err;
+	int				e2;
+}					t_bresenham;
 
 /*=============== PARSER ===============*/
 
@@ -112,6 +115,7 @@ void				raycaster(t_cub *cb);
 
 /*=============== MOVMENT ===============*/
 
+void				update_player_facing(t_cub *cb);
 void				change_pos(t_cub *cb);
 
 /*=============== MLX ===============*/
@@ -132,6 +136,7 @@ void				draw_triangle(mlx_image_t *img, t_vector pos,
 						t_vector facing, int color);
 void				draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
 						int color);
+void				draw_map(t_cub *cb);
 
 /*=============== UTILS ===============*/
 
@@ -139,7 +144,6 @@ t_vector			set_vector(double x, double y);
 t_vector			add_vector(t_vector vec1, t_vector vec2);
 t_vector			substract_vector(t_vector vec1, t_vector vec2);
 t_vector			multiply_vector(t_vector vec1, t_vector vec2);
-t_vector			normalize_vector(t_vector v);
 double				vector_length(t_vector vec);
 
 /*=============== UNLEAK ===============*/

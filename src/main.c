@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/11 16:09:55 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:41:10 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void	launch_mlx(t_cub *cb)
 {
 	cb->player.pos = set_vector(15, 10);
-    cb->player.facing = set_vector(0, 1);
+	cb->player.fov = 66;
+	cb->player.facing = set_vector(0, -1);
+	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
+	cb->player.plane = set_vector(cb->player.length_plane * -cb->player.facing.y,
+		cb->player.length_plane * cb->player.plane.x);
+	printf("facing : [%f, %f], plane : [%f, %f]\n", cb->player.facing.x, cb->player.facing.y, cb->player.plane.x, cb->player.plane.y);
 	cb->map.floor_color = 0xAFF09AFF;
 	cb->map.ceiling_color = 0x00AFFFFF;
 
@@ -27,21 +32,17 @@ void	launch_mlx(t_cub *cb)
 	mlx_image_to_window(cb->mlx, cb->image, 0, 0);
 	mlx_image_to_window(cb->mlx, cb->minimap, 10, 10);
 	mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
-    ft_memset(cb->image->pixels, 0xFFFFFFFF, cb->image->height * cb->image->width * 4);
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
-	
-	ft_printf("width: %d, height : %d\n", cb->map.width, cb->map.height);
-	
 	mlx_loop(cb->mlx);
 	mlx_delete_image(cb->mlx, cb->image);
-	mlx_terminate(cb->mlx);	
+	mlx_terminate(cb->mlx);
 }
 
-int32_t main(void)
+int32_t	main(void)
 {
 	t_cub	cb;
-	
+
 	parse(&cb);
 	launch_mlx(&cb);
 	unleak(&cb);

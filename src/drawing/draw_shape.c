@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:24:38 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/11 14:35:42 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:44:33 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	draw_rectangle(mlx_image_t *img, t_vector pos, t_vector size, int color)
 	uint32_t	x;
 	uint32_t	y;
 
-	// printf("case pos [%f, %f]\n", pos.x, pos.y);
 	y = pos.y;
 	while (y < pos.y + size.y)
 	{

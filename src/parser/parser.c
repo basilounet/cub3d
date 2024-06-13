@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/11 15:52:14 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:11:16 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,4 @@ void    parse(t_cub *cb)
         error(cb, MALLOC_ERROR);
     cb->map.width = ft_strlen(cb->map.map[0]);
     cb->map.height = ft_maplen(cb->map.map);
-    ft_print_map(cb->map.map);
 }

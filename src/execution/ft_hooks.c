@@ -6,39 +6,24 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/11 14:16:02 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:03:39 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-typedef void (*mlx_cursorfunc)(double xpos, double ypos, void* param);
-
-
-void	update_player_facing(t_cub *cb)
+void	handle_fov_change(t_cub *cb, mlx_key_data_t keydata)
 {
-	double	angle;
-	double	current_angle;
-	int32_t	x;
-	int32_t	y;
-
-	angle = 0;
-	mlx_get_mouse_pos(cb->mlx, &x, &y);
-	if (BONUS)
-		angle += (x - WIDTH / 2) * MOUSE_ROTATION_SPEED;
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
-		angle -= ROTATION_SPEED;
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
-		angle += ROTATION_SPEED;
-	if (angle != 0)
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
+		cb->player.fov += 2;
+	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
+		cb->player.fov -= 2;
+	if (keydata.key == MLX_KEY_P || keydata.key == MLX_KEY_O)
 	{
-		current_angle = atan2(cb->player.facing.y, cb->player.facing.x);
-		current_angle += angle;
-		cb->player.facing.x = cos(current_angle);
-		cb->player.facing.y = sin(current_angle);
+		cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180.0));
+		cb->player.plane.x = cb->player.length_plane * -cb->player.facing.y;
+		cb->player.plane.y = cb->player.length_plane * cb->player.facing.x;
 	}
-	if (BONUS)
-		mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
 }
 
 void	ft_loop_hook(void *param)
@@ -48,11 +33,9 @@ void	ft_loop_hook(void *param)
 	cb = (t_cub *)param;
 	update_player_facing(cb);
 	change_pos(cb);
-	// printf("facing x : %f, y : %f\n", cb->player.facing.x, cb->player.facing.y);
 	if (BONUS)
 		draw_map(cb);
 	raycaster(cb);
-	// draw_rectangle(cb->minimap, set_vector(MINIMAP_WIDTH / 2 - 3, MINIMAP_HEIGHT / 2 - 3), set_vector(6, 6), 0xFFFFFFFF);
 }
 
 void	ft_key_hook(mlx_key_data_t keydata, void *param)
@@ -62,4 +45,7 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 	cb = (t_cub *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(cb->mlx);
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT)
+		cb->player.fov += 2;
+	handle_fov_change(cb, keydata);
 }
