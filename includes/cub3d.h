@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/10 15:38:14 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:44:40 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ enum				e_errors
 {
 	MALLOC_ERROR = 1,
 	PATH_ERROR = 2,
+	NAME_ERROR = 3,
+	COLOR_ERROR = 4,
 	FINAL,
 };
 
@@ -53,15 +55,16 @@ typedef struct s_player
 
 typedef struct s_map
 {
+	char			**file;
 	char			**map;
 	int				width;
 	int				height;
 	int				floor_color;
 	int				ceiling_color;
-	mlx_texture_t	north_texture;
-	mlx_texture_t	west_texture;
-	mlx_texture_t	south_texture;
-	mlx_texture_t	east_texture;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*east_texture;
 }					t_map;
 
 typedef struct s_cub
@@ -81,7 +84,7 @@ typedef struct s_rectangle
 
 /*=============== PARSER ===============*/
 
-void				parse(t_cub *cb);
+void				parse(t_cub *cb, char *arg);
 
 /*=============== RAYTRACER ===============*/
 
@@ -113,6 +116,7 @@ t_vector			add_vector(t_vector vec1, t_vector vec2);
 t_vector			substract_vector(t_vector vec1, t_vector vec2);
 t_vector			multiply_vector(t_vector vec1, t_vector vec2);
 t_vector			normalize_vector(t_vector v);
+void free_array(char **array);
 
 /*=============== UNLEAK ===============*/
 
