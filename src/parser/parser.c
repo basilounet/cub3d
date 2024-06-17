@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/13 13:36:28 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:21:43 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,45 +34,6 @@ int	check_path2(t_cub *cb, char *str, char *id)
 	if (!ft_strncmp(id, "EA", 3))
 		cb->map.east_texture = mlx_load_png(str);
 	return (0);
-}
-
-int	check_path(t_cub *cb, char *id)
-{
-	int	i;
-	int j;
-	int	status;
-	char	**line;
-
-	i = 0;
-	status = 0;
-	while (cb->map.file[i])
-	{
-		j = 0;
-		line = ft_split(cb->map.file[i], ' ');
-		if (!line)
-			error(cb, MALLOC_ERROR);
-		while (line[j])
-		{
-			if (!ft_strncmp(line[j], id, 3))
-			{
-				if (!check_path2(cb, line[j + 1], id))
-				{
-					if (status)
-						return (1);
-					status = 1;
-					break ;
-				}
-				else
-					return (1);
-			}
-			j++;
-		}
-		free_array(line);
-		i++;
-	}
-	if (status)
-		return (0);
-	return (1);
 }
 
 int	chech_size_arg(char *arg)
@@ -175,46 +136,91 @@ int	check_color2(t_cub *cb, char **line, char *id)
 	return (0);
 }
 
-int	check_color(t_cub *cb, char *id)
+void	param_full(t_cub *cb)
+{
+	if (!cb->map.floor_color)
+		error(cb, MISSING_ERROR);
+	if (!cb->map.ceiling_color)
+		error(cb, MISSING_ERROR);
+	if (!cb->map.north_texture)
+		error(cb, MISSING_ERROR);
+	if (!cb->map.west_texture)
+		error(cb, MISSING_ERROR);
+	if (!cb->map.south_texture)
+		error(cb, MISSING_ERROR);
+	if (!cb->map.east_texture)
+		error(cb, MISSING_ERROR);
+}
+
+void	check_param(t_cub *cb)
 {
 	int	i;
 	int j;
+	int	k;
 	int	status;
 	char	**line;
 
 	i = 0;
-	status = 0;
 	while (cb->map.file[i])
 	{
 		j = 0;
 		line = ft_split(cb->map.file[i], ' ');
 		if (!line)
 			error(cb, MALLOC_ERROR);
-		while (line[j])
+		if (j > 1)
+			error(cb, PARAM_ERROR);
+		if (!ft_strncmp(line[j], "1", 1))
 		{
-			if (!ft_strncmp(line[j], id, 2))
-			{
-				if (!check_color2(cb, line, id))
-				{
-					if (status)
-						return (1);
-					status = 1;
-					break ;
-				}
-				else
-					return (1);
-			}
-			j++;
+			free_array(line);
+			break;
 		}
+		k = 0;
+		while (cb->map.param[k])
+		{
+			status = 0;
+			if (k < 4)
+			{
+				if (!ft_strncmp(line[j], cb->map.param[k], 3))
+				{
+					if (!cb->map.par[k])
+					{
+						if (!check_path2(cb, line[j + 1], cb->map.param[k]))
+						{
+							status = 1;
+							cb->map.par[k] = 1;
+							break ;
+						}
+					}
+					error(cb, PATH_ERROR);
+				}
+			}
+			else
+			{
+				if (!ft_strncmp(line[j], cb->map.param[k], 2))
+				{
+					if (!cb->map.par[k])
+					{
+						if (!check_color2(cb, line, cb->map.param[k]))
+						{
+							status = 1;
+							cb->map.par[k] = 1;
+							break ;
+						}
+					}
+					error(cb, COLOR_ERROR);
+				}
+			}
+			k++;
+		}
+		if (!status && ft_strncmp(line[j], "\n", 1))
+			error(cb, PARAM_ERROR);
 		free_array(line);
 		i++;
 	}
-	if (status)
-		return (0);
-	return (1);
+	param_full(cb);
 }
 
-int	find_max_len(char **map)
+int	find_max_len(char **file, int start, int height)
 {
 	int	len;
 	int	i;
@@ -222,17 +228,16 @@ int	find_max_len(char **map)
 
 	i = 0;
 	len = 0;
-	while (map[i])
+	while (i < height)
 	{
 		j = 0;
-		while(map[i][j])
-		{
+		while(file[start][j])
 			j++;
-		}
-		if (map[i][j - 1] == '\n')
+		if (file[start][j - 1] == '\n')
 			j--;
 		if (j > len)
 			len = j;
+		start++;
 		i++;
 	}
 	return (len);
@@ -249,15 +254,26 @@ char	**extract_map(t_cub *cb, int start, int height)
 	map = malloc(sizeof(char *) * (height + 1));
 	if (!map)
 		return (NULL);
-	len = find_max_len(cb->map.map);
+	map[height] = NULL;
+	len = find_max_len(cb->map.file, start, height);
 	while (i < height)
 	{
 		j = 0;
 		map[i] = malloc(sizeof(char) * (len + 1));
 		while (cb->map.file[start][j])
 		{
+			if (cb->map.file[start][j] != '\n')
+				map[i][j] = cb->map.file[start][j];
+			else
+				map[i][j] = '\0';
 			j++;
 		}
+		while(j < len + 1)
+		{
+			map[i][j] = '\0';
+			j++;
+		}
+		start++;
 		i++;
 	}
 	return (map);
@@ -265,23 +281,46 @@ char	**extract_map(t_cub *cb, int start, int height)
 
 char	**save_map(t_cub *cb, int height_file)
 {
+	int	i;
 	int	j;
 	int	height;
 	char	**map;
+	char	**line;
 
 	height = 0;
-	while (height_file < 0)
+	i = 0;
+	while (cb->map.file[i])
 	{
 		j = 0;
-		while (cb->map.file[height_file][j] == ' ')
+		line = ft_split(cb->map.file[i], ' ');
+		if (!line)
+			error(cb, MALLOC_ERROR);
+		if (j > 1)
+			error(cb, PARAM_ERROR);
+		if (!ft_strncmp(line[j], "1", 1))
+		{
+			height = height_file - i;
+			free_array(line);
+			break;
+		}
+		free_array(line);
+		i++;
+	}
+	/*
+	while (height_file > 0)
+	{
+		j = 0;
+		while (cb->map.file[height_file - 1][j] == ' ')
 			j++;
-		if (cb->map.file[height_file][j] != '\n')
+		if (cb->map.file[height_file - 1][j] != '\n' && cb->map.file[height_file - 1][j] != '\0')
 			height++;
-		else if (cb->map.file[height_file][j] != '\n' && height)
+		if ((cb->map.file[height_file - 1][j] == '\n' || cb->map.file[height_file - 1][j] == '\0') && height)
 			break ;
 		height_file--;
-	}
-	map = extract_map(cb, height_file, height);
+	}*/
+	if (!height)
+		error(cb, HEIGHT_ERROR);
+	map = extract_map(cb, i, height);
 	if (!map)
 		return (NULL);
 	return (map);
@@ -296,26 +335,43 @@ int	check_map(t_cub *cb)
 	cb->map.map = save_map(cb, height_file);
 	if (!cb->map.map)
 		return (2);
-	
 	return (0);
 }
 
 void	check_file(t_cub *cb)
 {
-	if (check_path(cb, "NO"))
-		error(cb, PATH_ERROR);
-	if (check_path(cb, "SO"))
-		error(cb, PATH_ERROR);
-	if (check_path(cb, "WE"))
-		error(cb, PATH_ERROR);
-	if (check_path(cb, "EA"))
-		error(cb, PATH_ERROR);
-	if (check_color(cb, "F"))
-		error(cb, COLOR_ERROR);
-	if (check_color(cb, "C"))
-		error(cb, COLOR_ERROR);
-	/*if (check_map(cb))
-		return (1);*/
+	check_param(cb);
+	if (check_map(cb))
+		error(cb, HEIGHT_ERROR);
+}
+
+void	set_param(t_cub *cb)
+{
+	cb->map.param = malloc(sizeof(char *) * 7);
+	cb->map.param[6] = NULL;
+	if (!cb->map.param)
+		error(cb, MALLOC_ERROR);
+	cb->map.param[0] = ft_strdup("NO");
+	if (!cb->map.param[0])
+		error(cb, MALLOC_ERROR);
+	cb->map.param[1] = ft_strdup("SO");
+	if (!cb->map.param[1])
+		error(cb, MALLOC_ERROR);
+	cb->map.param[2] = ft_strdup("EA");
+	if (!cb->map.param[2])
+		error(cb, MALLOC_ERROR);
+	cb->map.param[3] = ft_strdup("WE");
+	if (!cb->map.param[3])
+		error(cb, MALLOC_ERROR);
+	cb->map.param[4] = ft_strdup("F");
+	if (!cb->map.param[4])
+		error(cb, MALLOC_ERROR);
+	cb->map.param[5] = ft_strdup("C");
+	if (!cb->map.param[5])
+		error(cb, MALLOC_ERROR);
+	cb->map.par = ft_calloc(sizeof(int), 7);
+	if (!cb->map.par)
+		error(cb, MALLOC_ERROR);
 }
 
 void	parse(t_cub *cb, char *arg)
@@ -329,8 +385,9 @@ void	parse(t_cub *cb, char *arg)
 	cb->map.file = ft_slurp(arg);
 	if (!cb->map.file)
 		error(cb, MALLOC_ERROR);
+	set_param(cb);
 	check_file(cb);
 	//cb->map.width = ft_strlen(cb->map.map[0]);
 	//cb->map.height = ft_maplen(cb->map.map);
-	ft_print_map(cb->map.file);
+	ft_print_map(cb->map.map);
 }

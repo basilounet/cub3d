@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/13 13:36:03 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:09:17 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ void	launch_mlx(t_cub *cb)
 	mlx_terminate(cb->mlx);
 }
 
-int32_t	main(void)
+int32_t	main(int argc, char **argv)
 {
 	t_cub	cb;
 
-	parse(&cb);
+	if (argc != 2)
+		error(NULL, ARG_ERROR);
+	parse(&cb, argv[1]);
 	launch_mlx(&cb);
 	unleak(&cb);
 	return (0);

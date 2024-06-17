@@ -6,11 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/13 13:30:47 by bvasseur         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/12 11:44:40 by amolbert         ###   ########.fr       */
->>>>>>> f0ab2366798c9c3fb12bbea86c12d97f522c8df3
+/*   Updated: 2024/06/17 16:51:03 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +40,10 @@ enum				e_errors
 	PATH_ERROR = 2,
 	NAME_ERROR = 3,
 	COLOR_ERROR = 4,
+	ARG_ERROR = 5,
+	HEIGHT_ERROR = 6,
+	MISSING_ERROR = 7,
+	PARAM_ERROR = 8,
 	FINAL,
 };
 
@@ -84,6 +84,8 @@ typedef struct s_map
 {
 	char			**file;
 	char			**map;
+	char			**param;
+	int				*par;
 	int				width;
 	int				height;
 	int				floor_color;
@@ -153,6 +155,7 @@ t_vector			add_vector(t_vector vec1, t_vector vec2);
 t_vector			substract_vector(t_vector vec1, t_vector vec2);
 t_vector			multiply_vector(t_vector vec1, t_vector vec2);
 double				vector_length(t_vector vec);
+void 				free_array(char **array);
 
 /*=============== UNLEAK ===============*/
 
