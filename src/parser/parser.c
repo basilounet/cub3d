@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/17 17:21:43 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:40:06 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,8 +262,10 @@ char	**extract_map(t_cub *cb, int start, int height)
 		map[i] = malloc(sizeof(char) * (len + 1));
 		while (cb->map.file[start][j])
 		{
-			if (cb->map.file[start][j] != '\n')
+			if (cb->map.file[start][j] != '\n' && cb->map.file[start][j] != ' ')
 				map[i][j] = cb->map.file[start][j];
+			else if (cb->map.file[start][j] == ' ')
+				map[i][j] = '1';
 			else
 				map[i][j] = '\0';
 			j++;
@@ -306,24 +308,112 @@ char	**save_map(t_cub *cb, int height_file)
 		free_array(line);
 		i++;
 	}
-	/*
-	while (height_file > 0)
-	{
-		j = 0;
-		while (cb->map.file[height_file - 1][j] == ' ')
-			j++;
-		if (cb->map.file[height_file - 1][j] != '\n' && cb->map.file[height_file - 1][j] != '\0')
-			height++;
-		if ((cb->map.file[height_file - 1][j] == '\n' || cb->map.file[height_file - 1][j] == '\0') && height)
-			break ;
-		height_file--;
-	}*/
 	if (!height)
 		error(cb, HEIGHT_ERROR);
 	map = extract_map(cb, i, height);
 	if (!map)
 		return (NULL);
 	return (map);
+}
+
+void	check_blank_line(t_cub *cb)
+{
+	int	i;
+	int	j;
+	int	status;
+
+	i = 0;
+	while (cb->map.map[i])
+	{
+		j = 0;
+		status = 0;
+		while (cb->map.map[i][j])
+		{
+			if (cb->map.map[i][j] != '\0')
+				status = 1;
+			j++;
+		}
+		if (!status)
+			error(cb, EMPTYLINE_ERROR);
+		i++;
+	}
+}
+
+int	ft_isplayer(int c)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (1);
+	return (0);
+}
+
+void	check_char(t_cub *cb)
+{
+	int	i;
+	int	j;
+	int	status;
+
+	i = 0;
+	status = 0;
+	while (cb->map.map[i])
+	{
+		j = 0;
+		while (cb->map.map[i][j])
+		{
+			if (cb->map.map[i][j] != '0' && cb->map.map[i][j] != '1' && !ft_isplayer(cb->map.map[i][j]))
+				error(cb, BADCHAR_ERROR);
+			if (ft_isplayer(cb->map.map[i][j]))
+			{
+				if (status)
+					error(cb, PLAYER_ERROR);
+				status = 1;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (!status)
+		error(cb, PLAYER_ERROR);
+}
+
+void	check_borders(t_cub *cb, int i, int j)
+{
+	int	len;
+	int	height;
+
+	len = ft_strlen(cb->map.map[i]);
+	height = ft_maplen(cb->map.map);
+	if (i == 0 || i == height - 1 || j == 0 || j == len - 1)
+		error(cb, CLOSED_ERROR);
+}
+
+void	check_near_char(t_cub *cb, int i, int j)
+{
+	if (cb->map.map[i - 1][j] == '\0' || cb->map.map[i + 1][j] == '\0')
+		error(cb, CLOSED_ERROR);
+	if (cb->map.map[i][j - 1] == '\0' || cb->map.map[i + 1][j + 1] == '\0')
+		error(cb, CLOSED_ERROR);
+}
+
+void	check_closed_map(t_cub *cb)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cb->map.map[i])
+	{
+		j = 0;
+		while (cb->map.map[i][j])
+		{
+			if (cb->map.map[i][j] != '1')
+			{
+				check_borders(cb, i, j);
+				check_near_char(cb, i, j);
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 int	check_map(t_cub *cb)
@@ -335,6 +425,9 @@ int	check_map(t_cub *cb)
 	cb->map.map = save_map(cb, height_file);
 	if (!cb->map.map)
 		return (2);
+	check_blank_line(cb);
+	check_char(cb);
+	check_closed_map(cb);
 	return (0);
 }
 

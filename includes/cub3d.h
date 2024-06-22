@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/17 16:51:03 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:37:42 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ enum				e_errors
 	HEIGHT_ERROR = 6,
 	MISSING_ERROR = 7,
 	PARAM_ERROR = 8,
+	EMPTYLINE_ERROR = 9,
+	BADCHAR_ERROR = 10,
+	PLAYER_ERROR = 11,
+	CLOSED_ERROR = 12,
 	FINAL,
 };
 
