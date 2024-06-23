@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:45:27 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/14 15:05:44 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:37:30 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ char	**ft_free_map(char **map, size_t len)
 {
 	size_t	i;
 
-	i = 0;
 	if (!map)
 		return (NULL);
-	while (i < len)
+	i = -1;
+	while (++i < len)
 	{
-		if (map[i++])
+		if (map[i])
 		{
-			free(map[i - 1]);
-			map[i - 1] = NULL;
+			free(map[i]);
+			map[i] = NULL;
 		}
 	}
 	free(map);
@@ -65,7 +65,7 @@ char	**ft_mapcpy(char **original, size_t len)
 	return (map);
 }
 
-void	ft_print_map(char **map)
+void	ft_print_map(char **map, int with_n)
 {
 	int	i;
 
@@ -74,7 +74,9 @@ void	ft_print_map(char **map)
 		return ;
 	while (map[i])
 	{
-		ft_printf("%s\n", map[i]);
+		ft_printf("%s", map[i]);
+		if (with_n)
+			ft_printf("\n");
 		i++;
 	}
 }

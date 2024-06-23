@@ -1,8 +1,9 @@
 ##========== SOURCES ==========##
 
 SRC = ft_abs.c \
-	ft_atoi.c \
 	ft_atoi_base.c \
+	ft_atoi.c \
+	ft_bits.c \
 	ft_bzero.c \
 	ft_calloc.c \
 	ft_countc.c \

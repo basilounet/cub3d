@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/14 11:09:17 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/22 17:33:34 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+
+
 void	launch_mlx(t_cub *cb)
 {
-	cb->player.pos = set_vector(15, 10);
-	cb->player.fov = 66;
+
+	cb->player.pos = set_vector(5, 5);
 	cb->player.facing = set_vector(0, -1);
+	cb->player.fov = 66;
 	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
 	cb->player.plane = set_vector(cb->player.length_plane * -cb->player.facing.y,
 		cb->player.length_plane * cb->player.plane.x);
-	printf("facing : [%f, %f], plane : [%f, %f]\n", cb->player.facing.x, cb->player.facing.y, cb->player.plane.x, cb->player.plane.y);
-	cb->map.floor_color = 0xAFF09AFF;
-	cb->map.ceiling_color = 0x00AFFFFF;
 
 	// mlx_set_setting(MLX_MAXIMIZED, true);
 	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -36,6 +36,7 @@ void	launch_mlx(t_cub *cb)
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
 	mlx_loop(cb->mlx);
 	mlx_delete_image(cb->mlx, cb->image);
+	mlx_delete_image(cb->mlx, cb->minimap);
 	mlx_terminate(cb->mlx);
 }
 
@@ -45,7 +46,9 @@ int32_t	main(int argc, char **argv)
 
 	if (argc != 2)
 		error(NULL, ARG_ERROR);
+	(void) argv;
 	parse(&cb, argv[1]);
+    cb.map.height = ft_maplen(cb.map.map);
 	launch_mlx(&cb);
 	unleak(&cb);
 	return (0);

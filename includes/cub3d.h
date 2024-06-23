@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/22 16:37:42 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:50:14 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ enum				e_errors
 	BADCHAR_ERROR = 10,
 	PLAYER_ERROR = 11,
 	CLOSED_ERROR = 12,
+	TOO_MANY_ARG_ON_LINE = 13,
+	NO_FILE_ERROR = 14,
 	FINAL,
 };
 
@@ -74,6 +76,8 @@ typedef struct s_raycaster
 	int				drawStart;
 	int				drawEnd;
 }					t_raycaster;
+
+
 
 typedef struct s_player
 {

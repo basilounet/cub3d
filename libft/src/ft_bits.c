@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_bits.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 13:33:26 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/23 13:48:54 by bvasseur         ###   ########.fr       */
+/*   Created: 2024/06/23 13:48:32 by bvasseur          #+#    #+#             */
+/*   Updated: 2024/06/23 13:48:48 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <libft.h>
 
-void	free_array(char **array)
+int	switch_bit(int nb)
 {
-	int	i;
+	int	rev;
+	int	len;
 
-	i = 0;
-	while (array[i])
+	rev = 0;
+	len = 31;
+	while (len >= 0)
 	{
-		free(array[i]);
-		i++;
+		rev += ((nb >> len) & 1) ^ 1;
+		if (len > 0)
+			rev <<= 1;
+		len--;
 	}
-	free(array);
+	return (rev);
 }
