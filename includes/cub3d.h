@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/23 13:50:14 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:22:39 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # define WIDTH 612
 # define HEIGHT 612
+# define TEXWIDTH 64
+# define TEXHEIGHT 64
 # define MINIMAP_WIDTH 150
 # define MINIMAP_HEIGHT 150
 # define MINIMAP_SQUARE_SIZE 15

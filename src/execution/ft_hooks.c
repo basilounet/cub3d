@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/12 17:03:39 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:54:59 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	handle_fov_change(t_cub *cb, mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT)
 		cb->player.fov += 2;
-	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_P && keydata.action == MLX_REPEAT)
 		cb->player.fov -= 2;
 	if (keydata.key == MLX_KEY_P || keydata.key == MLX_KEY_O)
 	{
@@ -45,7 +45,5 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 	cb = (t_cub *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(cb->mlx);
-	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT)
-		cb->player.fov += 2;
 	handle_fov_change(cb, keydata);
 }
