@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:59:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/23 16:59:33 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:22:34 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,32 @@ static void	dda(t_cub *cb, t_raycaster *ray)
 	}
 }
 
+mlx_texture_t	*get_wall_texture(t_cub *cb, t_raycaster *ray)
+{
+	if (cb->player.pos.y < 0 || cb->player.pos.y >= cb->map.height
+		|| cb->player.pos.x < 0
+		|| cb->player.pos.x >= ft_strlen(cb->map.map[(int)cb->player.pos.y])
+		|| cb->map.map[(int)floor(cb->player.pos.y)][(int)floor(cb->player.pos.x)] != '0')
+		return (cb->map.bozo_texture);
+	if (ray->side == 0 && ray->raydir.x > 0)
+		return (cb->map.west_texture);
+	if (ray->side == 0 && ray->raydir.x < 0)
+		return (cb->map.east_texture);
+	if (ray->side == 1 && ray->raydir.y < 0)
+		return (cb->map.south_texture);
+	if (ray->side == 1 && ray->raydir.y > 0)
+		return (cb->map.north_texture);
+	return (cb->map.bozo_texture);
+}
+
 static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 {
-	int		texX;
-	double	step;
-	double	texPos;
-	int		texY;
-	int		color;
+	mlx_texture_t	*txt;
+	int				texX;
+	double			step;
+	double			texPos;
+	int				texY;
+	int				color;
 
 	double wallX; // where exactly the wall was hit
 	ray->lineHeight = (int)(HEIGHT / ray->perpWallDist);
@@ -83,28 +102,24 @@ static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 	else
 		wallX = cb->player.pos.x + ray->perpWallDist * ray->raydir.x;
 	wallX -= floor(wallX);
-	texX = (int)(wallX * (double)TEXWIDTH);
-	if (ray->side == 0 && ray->raydir.x > 0)
-		texX = TEXWIDTH - texX - 1;
-	if (ray->side == 1 && ray->raydir.y < 0)
-		texX = TEXWIDTH - texX - 1;
-	step = 1.0 * TEXHEIGHT / ray->lineHeight;
+	txt = get_wall_texture(cb, ray);
+	texX = (int)(wallX * (double)txt->width);
+	if ((ray->side == 0 && ray->raydir.x > 0) || (ray->side == 1
+			&& ray->raydir.y < 0))
+		texX = txt->width - texX - 1;
+	step = 1.0 * txt->height / ray->lineHeight;
 	texPos = (ray->drawStart - HEIGHT / 2 + ray->lineHeight / 2) * step;
-	for (int y = ray->drawStart; y <= ray->drawEnd; y++)
+	for (int y = ray->drawStart; y < ray->drawEnd; y++)
 	{
-		texY = (int)texPos & (TEXHEIGHT - 1);
+		texY = (int)texPos & (txt->height - 1);
 		texPos += step;
-		color = cb->map.north_texture->pixels[TEXHEIGHT * texY * 4 + ft_abs(texX
-				- 63) * 4] << 8;
-		color = (color + cb->map.north_texture->pixels[TEXHEIGHT * texY * 4
-				+ ft_abs(texX - 63) * 4 + 1]) << 8;
-		color = (color + cb->map.north_texture->pixels[TEXHEIGHT * texY * 4
-				+ ft_abs(texX - 63) * 4 + 2]) << 8;
-		color = (color + cb->map.north_texture->pixels[TEXHEIGHT * texY * 4
-				+ ft_abs(texX - 63) * 4 + 3]);
-		// if (ray->side == 1)
-		// 	color = (color >> 1) & 0b01111111011111110111111111111111;
-		try_put_pixel(cb->image, x, y, color);
+		color = txt->pixels[txt->height * texY * 4 + ft_abs(texX - txt->width
+				+ 1) * 4] << 24 | txt->pixels[txt->height * texY * 4
+			+ ft_abs(texX - txt->width + 1) * 4
+			+ 1] << 16 | txt->pixels[txt->height * texY * 4 + ft_abs(texX
+				- txt->width + 1) * 4 + 2] << 8 | txt->pixels[txt->height * texY
+			* 4 + ft_abs(texX - txt->width + 1) * 4 + 3];
+		try_put_pixel(cb->image, x, y + 1, color);
 	}
 }
 

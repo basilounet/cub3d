@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:23:45 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/22 17:19:56 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:36:09 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,6 @@ void	unleak(t_cub *cb)
 		mlx_delete_texture(cb->map.south_texture);
 	if (cb->map.east_texture)
 		mlx_delete_texture(cb->map.east_texture);
+	if (cb->map.bozo_texture)
+		mlx_delete_texture(cb->map.bozo_texture);
 }

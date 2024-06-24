@@ -1,13 +1,13 @@
-NO         ./textures/S.png                      
-WE                                      ./textures/W.png                                                                             
+NO         ./textures/dog1.png                      
+WE                                      ./textures/dog2.png                                                                             
 
 F 15,150,55
 C 140,40,20
 
 
-SO  ./textures/N.png  
+SO  ./textures/dog3.png  
 
-EA ./textures/E.png
+EA ./textures/dog4.png
 
 1111111111111
 1000000100001

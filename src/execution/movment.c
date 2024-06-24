@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/22 16:45:21 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:05:53 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ void	update_player_facing(t_cub *cb)
 		mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
 }
 
+static int	is_wall_nearby(t_cub *cb, double new_x, double new_y)
+{
+	if (new_y < 0 && new_y >= cb->map.height && new_x < 0
+		&& new_x >= ft_strlen(cb->map.map[(int)new_y]))
+		return (1);
+	if (cb->map.map[(int)(new_y + 0.2)][(int)new_x] == '1')
+		return (1);
+	if (cb->map.map[(int)(new_y - 0.2)][(int)new_x] == '1')
+		return (1);
+	if (cb->map.map[(int)new_y][(int)(new_x + 0.2)] == '1')
+		return (1);
+	if (cb->map.map[(int)new_y][(int)(new_x - 0.2)] == '1')
+		return (1);
+	if (cb->map.map[(int)(new_y - 0.2)][(int)(new_x - 0.2)] == '1')
+		return (1);
+	if (cb->map.map[(int)(new_y + 0.2)][(int)(new_x + 0.2)] == '1')
+		return (1);
+	if (cb->map.map[(int)(new_y + 0.2)][(int)(new_x - 0.2)] == '1')
+		return (1);
+	if (cb->map.map[(int)(new_y - 0.2)][(int)(new_x + 0.2)] == '1')
+		return (1);
+	return (0);
+}
+
 void	change_pos(t_cub *cb)
 {
 	t_vector	lateral;
@@ -62,8 +86,6 @@ void	change_pos(t_cub *cb)
 				+ lateral.y * MOVE_SPEED);
 	new_x = cb->player.pos.x + offset.x;
 	new_y = cb->player.pos.y + offset.y;
-	if (new_y >= 0 && new_y < cb->map.height && new_x >= 0
-		&& new_x < ft_strlen(cb->map.map[(int)new_y])
-		&& cb->map.map[(int)floor(new_y)][(int)floor(new_x)] != '1')
+	if (!is_wall_nearby(cb, new_x, new_y))
 		cb->player.pos = set_vector(new_x, new_y);
 }

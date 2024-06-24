@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/23 16:54:59 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:26:36 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void	handle_fov_change(t_cub *cb, mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT)
+	if (DEBUG)
+		printf("fov : %d\n", cb->player.fov);
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT \
+		&& cb->player.fov < 120)
 		cb->player.fov += 2;
-	if (keydata.key == MLX_KEY_P && keydata.action == MLX_REPEAT)
+	if (keydata.key == MLX_KEY_P && keydata.action == MLX_REPEAT \
+		&& cb->player.fov > 30)
 		cb->player.fov -= 2;
 	if (keydata.key == MLX_KEY_P || keydata.key == MLX_KEY_O)
 	{

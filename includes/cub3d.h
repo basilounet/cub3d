@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/23 14:22:39 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:24:06 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@
 # include <libft.h>
 # include <math.h>
 # include <stdio.h>
-# define WIDTH 612
-# define HEIGHT 612
-# define TEXWIDTH 64
-# define TEXHEIGHT 64
+# define WIDTH 1000
+# define HEIGHT 480
 # define MINIMAP_WIDTH 150
 # define MINIMAP_HEIGHT 150
 # define MINIMAP_SQUARE_SIZE 15
 # define ROTATION_SPEED 0.04
 # define MOUSE_ROTATION_SPEED 0.0005
-# define MOVE_SPEED 0.07
+# define MOVE_SPEED 0.05
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -52,6 +50,7 @@ enum				e_errors
 	CLOSED_ERROR = 12,
 	TOO_MANY_ARG_ON_LINE = 13,
 	NO_FILE_ERROR = 14,
+	MISSING_BOZO_ERROR = 15,
 	FINAL,
 };
 
@@ -79,8 +78,6 @@ typedef struct s_raycaster
 	int				drawEnd;
 }					t_raycaster;
 
-
-
 typedef struct s_player
 {
 	t_vector		pos;
@@ -104,6 +101,7 @@ typedef struct s_map
 	mlx_texture_t	*west_texture;
 	mlx_texture_t	*south_texture;
 	mlx_texture_t	*east_texture;
+	mlx_texture_t	*bozo_texture;
 }					t_map;
 
 typedef struct s_cub
@@ -161,11 +159,7 @@ void				draw_map(t_cub *cb);
 /*=============== UTILS ===============*/
 
 t_vector			set_vector(double x, double y);
-t_vector			add_vector(t_vector vec1, t_vector vec2);
-t_vector			substract_vector(t_vector vec1, t_vector vec2);
-t_vector			multiply_vector(t_vector vec1, t_vector vec2);
-double				vector_length(t_vector vec);
-void 				free_array(char **array);
+void				free_array(char **array);
 
 /*=============== UNLEAK ===============*/
 
