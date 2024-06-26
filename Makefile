@@ -2,6 +2,13 @@
 
 SRC =	utils/utils.c \
 		parser/parser.c \
+		parser/color.c \
+		parser/checker_map.c \
+		parser/checker_color.c \
+		parser/checker_param.c \
+		parser/player.c \
+		parser/param.c \
+		parser/map.c \
 		execution/raycaster.c \
 		execution/movment.c \
 		execution/ft_hooks.c \

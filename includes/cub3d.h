@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:24:06 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/26 08:48:20 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,40 @@ typedef struct s_bresenham
 	int				e2;
 }					t_bresenham;
 
+/*=============== CHECKER PARAM ===============*/
+
+int					check_param2(t_cub *cb, int i);
+
+/*=============== CHECKER COLOR ===============*/
+
+int					check_color(t_cub *cb, char **line, char *id);
+
+/*=============== MAP ===============*/
+
+void				save_map(t_cub *cb, int height_file);
+
+/*=============== PARAM ===============*/
+
+void				param_full(t_cub *cb);
+void				set_param(t_cub *cb);
+
+/*=============== CHECKER MAP ===============*/
+
+void				check_blank_line(t_cub *cb);
+void				check_char(t_cub *cb);
+void				check_borders(t_cub *cb, int i, int j);
+void				check_near_char(t_cub *cb, int i, int j);
+void				check_closed_map(t_cub *cb);
+
+/*=============== PLAYER ===============*/
+
+int					ft_isplayer(int c);
+void				check_player(t_cub *cb, int *status, int i, int j);
+
+/*=============== COLOR ===============*/
+
+void				save_color(t_cub *cb, char *color, int count, char *id);
+
 /*=============== PARSER ===============*/
 
 void				parse(t_cub *cb, char *arg);
@@ -131,7 +165,7 @@ void				parse(t_cub *cb, char *arg);
 
 void				raycaster(t_cub *cb);
 
-/*=============== MOVMENT ===============*/
+/*=============== MOVEMENT ===============*/
 
 void				update_player_facing(t_cub *cb);
 void				change_pos(t_cub *cb);
@@ -160,6 +194,7 @@ void				draw_map(t_cub *cb);
 
 t_vector			set_vector(double x, double y);
 void				free_array(char **array);
+int					find_max_len(char **file, int start, int height);
 
 /*=============== UNLEAK ===============*/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movment.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:05:53 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:22:14 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	update_player_facing(t_cub *cb)
 
 static int	is_wall_nearby(t_cub *cb, double new_x, double new_y)
 {
-	if (new_y < 0 && new_y >= cb->map.height && new_x < 0
-		&& new_x >= ft_strlen(cb->map.map[(int)new_y]))
+	if (new_y < 0 || new_y >= cb->map.height || new_x < 0
+		|| new_x >= ft_strlen(cb->map.map[(int)new_y]))
 		return (1);
 	if (cb->map.map[(int)(new_y + 0.2)][(int)new_x] == '1')
 		return (1);

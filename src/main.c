@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:25:43 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:35:47 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	launch_mlx(t_cub *cb)
 {
-	cb->player.pos = set_vector(5, 5);
-	cb->player.facing = set_vector(0, -1);
 	cb->player.fov = 66;
 	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
 	cb->player.plane = set_vector(cb->player.length_plane * \
