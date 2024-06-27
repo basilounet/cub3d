@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:31:28 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:22:22 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ typedef struct s_raycaster
 	t_vector			raydir;
 	t_vector			side_dist;
 	t_vector			delta_dist;
-	double				perpWallDist;
+	double				perp_wall_dist;
 	int					hit;
 	int					side;
-	int					lineHeight;
-	int					drawStart;
-	int					drawEnd;
+	int					line_height;
+	int					draw_start;
+	int					draw_end;
 }						t_raycaster;
 
 typedef struct s_player
@@ -151,6 +151,40 @@ typedef struct s_bresenham
 	int					e2;
 }						t_bresenham;
 
+/*=============== CHECKER PARAM ===============*/
+
+int						check_param2(t_cub *cb, int i);
+
+/*=============== CHECKER COLOR ===============*/
+
+int						check_color(t_cub *cb, char **line, char *id);
+
+/*=============== MAP ===============*/
+
+void					save_map(t_cub *cb, int height_file);
+
+/*=============== PARAM ===============*/
+
+void					param_full(t_cub *cb);
+void					set_param(t_cub *cb);
+
+/*=============== CHECKER MAP ===============*/
+
+void					check_blank_line(t_cub *cb);
+void					check_char(t_cub *cb);
+void					check_borders(t_cub *cb, int i, int j);
+void					check_near_char(t_cub *cb, int i, int j);
+void					check_closed_map(t_cub *cb);
+
+/*=============== PLAYER ===============*/
+
+int						ft_isplayer(int c);
+void					check_player(t_cub *cb, int *status, int i, int j);
+
+/*=============== COLOR ===============*/
+
+void					save_color(t_cub *cb, char *color, int count, char *id);
+
 /*=============== PARSER ===============*/
 
 void					parse(t_cub *cb, char *arg);
@@ -190,6 +224,7 @@ void					draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
 
 t_vector				set_vector(double x, double y);
 void					free_array(char **array);
+int						find_max_len(char **file, int start, int height);
 
 /*=============== UNLEAK ===============*/
 

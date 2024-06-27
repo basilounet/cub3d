@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:24:55 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:45:21 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 void	launch_mlx(t_cub *cb)
 {
-	cb->player.pos = set_vector(5, 5);
-	cb->player.facing = set_vector(0, -1);
 	cb->width = WIDTH;
 	cb->height = HEIGHT;
 	cb->player.fov = 66;
 	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
-	cb->player.plane = set_vector(cb->player.length_plane * \
-			-cb->player.facing.y, cb->player.length_plane * cb->player.plane.x);
+	cb->player.plane = set_vector(cb->player.length_plane *
+			-cb->player.facing.y, cb->player.length_plane
+			* cb->player.facing.x);
 	cb->map.bozo_texture = mlx_load_png("textures/bozo.png");
 	if (!cb->map.bozo_texture)
 		error(cb, MISSING_BOZO_ERROR);
-
 	// mlx_set_setting(MLX_MAXIMIZED, true);
 	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	cb->mlx = mlx_init(cb->width, cb->height, "3dcub", true);

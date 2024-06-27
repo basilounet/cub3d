@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:59:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:32:20 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:22:22 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,26 +97,26 @@ static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 	int				color;
 
 	double wallX; // where exactly the wall was hit
-	ray->lineHeight = (int)(cb->height / ray->perpWallDist);
-	ray->drawStart = -ray->lineHeight / 2 + cb->height / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + cb->height / 2;
-	if (ray->drawEnd >= cb->height)
-		ray->drawEnd = cb->height - 1;
+	ray->line_height = (int)(cb->height / ray->perp_wall_dist);
+	ray->draw_start = -ray->line_height / 2 + cb->height / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + cb->height / 2;
+	if (ray->draw_end >= cb->height)
+		ray->draw_end = cb->height - 1;
 	if (ray->side == 0)
-		wallX = cb->player.pos.y + ray->perpWallDist * ray->raydir.y;
+		wallX = cb->player.pos.y + ray->perp_wall_dist * ray->raydir.y;
 	else
-		wallX = cb->player.pos.x + ray->perpWallDist * ray->raydir.x;
+		wallX = cb->player.pos.x + ray->perp_wall_dist * ray->raydir.x;
 	wallX -= floor(wallX);
 	txt = get_wall_texture(cb, ray);
 	texX = (int)(wallX * (double)txt->width);
 	if ((ray->side == 0 && ray->raydir.x > 0) || (ray->side == 1
 			&& ray->raydir.y < 0))
 		texX = txt->width - texX - 1;
-	step = 1.0 * txt->height / ray->lineHeight;
-	texPos = (ray->drawStart - cb->height / 2 + ray->lineHeight / 2) * step;
-	for (int y = ray->drawStart; y < ray->drawEnd; y++)
+	step = 1.0 * txt->height / ray->line_height;
+	texPos = (ray->draw_start - cb->height / 2 + ray->line_height / 2) * step;
+	for (int y = ray->draw_start; y < ray->draw_end; y++)
 	{
 		texY = (int)texPos & (txt->height - 1);
 		texPos += step;
@@ -145,11 +145,11 @@ static void	raycaster_loop(t_cub *cb, t_player pl)
 		raycaster_set_var(cb->player, &ray);
 		dda(cb, &ray);
 		if (ray.side == 0)
-			ray.perpWallDist = (ray.side_dist.x - ray.delta_dist.x);
+			ray.perp_wall_dist = (ray.side_dist.x - ray.delta_dist.x);
 		else
-			ray.perpWallDist = (ray.side_dist.y - ray.delta_dist.y);
-		if (ray.perpWallDist <= 0.1f)
-			ray.perpWallDist = 1;
+			ray.perp_wall_dist = (ray.side_dist.y - ray.delta_dist.y);
+		if (ray.perp_wall_dist <= 0.1f)
+			ray.perp_wall_dist = 1;
 		draw_screen(cb, &ray, x);
 		x++;
 	}

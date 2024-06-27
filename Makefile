@@ -2,6 +2,13 @@
 
 SRC =	mandatory/utils/utils.c \
 		mandatory/parser/parser.c \
+		mandatory/parser/color.c \
+		mandatory/parser/checker_map.c \
+		mandatory/parser/checker_color.c \
+		mandatory/parser/checker_param.c \
+		mandatory/parser/player.c \
+		mandatory/parser/param.c \
+		mandatory/parser/map.c \
 		mandatory/execution/raycaster.c \
 		mandatory/execution/movment.c \
 		mandatory/execution/ft_hooks.c \
@@ -13,6 +20,13 @@ SRC =	mandatory/utils/utils.c \
 
 BONUS_SRC =	bonus/utils/utils_bonus.c \
 			bonus/parser/parser_bonus.c \
+			bonus/parser/color_bonus.c \
+			bonus/parser/checker_map_bonus.c \
+			bonus/parser/checker_color_bonus.c \
+			bonus/parser/checker_param_bonus.c \
+			bonus/parser/player_bonus.c \
+			bonus/parser/param_bonus.c \
+			bonus/parser/map_bonus.c \
 			bonus/execution/raycaster_bonus.c \
 			bonus/execution/movment_bonus.c \
 			bonus/execution/ft_hooks_bonus.c \

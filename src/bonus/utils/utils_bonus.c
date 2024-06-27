@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:26 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:32:08 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:15:45 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,27 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+int	find_max_len(char **file, int start, int height)
+{
+	int	len;
+	int	i;
+	int	j;
+
+	i = 0;
+	len = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (file[start][j])
+			j++;
+		if (file[start][j - 1] == '\n')
+			j--;
+		if (j > len)
+			len = j;
+		start++;
+		i++;
+	}
+	return (len);
 }
