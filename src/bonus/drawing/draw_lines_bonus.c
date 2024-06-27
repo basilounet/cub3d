@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_lines.c                                       :+:      :+:    :+:   */
+/*   draw_lines_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 21:01:59 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/13 13:27:02 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:32:23 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 static void	bresenham_values_init(t_bresenham *br, t_vector p0, t_vector p1)
 {

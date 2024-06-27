@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:30:06 by bvasseur         ###   ########.fr       */
+/*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
+/*   Updated: 2024/06/27 11:31:28 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <MLX42/MLX42.h>
 # include <libft.h>
@@ -19,9 +19,15 @@
 # include <stdio.h>
 # define WIDTH 1000
 # define HEIGHT 480
+# define MINIMAP_WIDTH 150
+# define MINIMAP_HEIGHT 150
+# define MINIMAP_SQUARE_SIZE 15
 # define ROTATION_SPEED 0.04
 # define MOUSE_ROTATION_SPEED 0.0005
 # define MOVE_SPEED 0.05
+# define PAUSE_MENU_COLOR 0xE0A060C0
+
+# define PAUSE 0b1
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -46,6 +52,23 @@ enum					e_errors
 	MISSING_BOZO_ERROR = 15,
 	MAX_ERROR,
 };
+
+typedef struct s_cub	t_cub;
+
+typedef struct s_button
+{
+	int					x;
+	int					y;
+	char				*text;
+	void				(*callback)(t_cub *);
+}						t_button;
+
+typedef struct s_pause
+{
+	mlx_image_t			*image;
+	t_button			*buttons;
+	int					buttons_count;
+}						t_pause;
 
 typedef struct s_vector
 {
@@ -80,6 +103,14 @@ typedef struct s_player
 	int					fov;
 }						t_player;
 
+typedef struct s_minimap
+{
+	mlx_image_t			*image;
+	double				height;
+	double				width;
+	double				square_size;
+}						t_minimap;
+
 typedef struct s_map
 {
 	char				**file;
@@ -105,7 +136,20 @@ typedef struct s_cub
 	mlx_image_t			*image;
 	t_map				map;
 	t_player			player;
+	t_minimap			minimap;
+	t_pause				pause;
+	int					flags;
 }						t_cub;
+
+typedef struct s_bresenham
+{
+	int					dx;
+	int					dy;
+	int					sx;
+	int					sy;
+	int					err;
+	int					e2;
+}						t_bresenham;
 
 /*=============== PARSER ===============*/
 
@@ -124,15 +168,23 @@ void					change_pos(t_cub *cb);
 
 void					ft_loop_hook(void *param);
 void					ft_key_hook(mlx_key_data_t keydata, void *param);
+void					ft_resize_hook(int32_t width, int32_t height,
+							void *param);
+void					create_pause_screen(t_cub *cb, int action);
 
 /*=============== DRAW ===============*/
 
 void					try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y,
 							int color);
+void					draw_map(t_cub *cb, t_minimap mm);
 void					draw_rectangle(mlx_image_t *img, t_vector pos,
 							t_vector size, int color);
 void					draw_empty_rectangle(mlx_image_t *img, t_vector pos,
 							t_vector size, int color);
+void					draw_triangle(mlx_image_t *img, t_vector pos,
+							t_vector facing, int color);
+void					draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
+							int color);
 
 /*=============== UTILS ===============*/
 
@@ -146,7 +198,5 @@ void					unleak(t_cub *cb);
 /*=============== ERROR ===============*/
 
 void					error(t_cub *cb, int error_num);
-
-/*=============== DRAW ===============*/
 
 #endif

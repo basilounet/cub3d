@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:27:04 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:25:01 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:41:06 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	error(t_cub *cb, int error_num)
 		"The bozo png is missing", NULL};
 
 	ft_putstr_fd("Error\n /!\\ ERROR /!\\ : ", 2);
-	if (error_num > 0 && error_num < FINAL)
+	if (error_num > 0 && error_num < MAX_ERROR)
 		ft_putendl_fd(error_msg[error_num - 1], 2);
 	else
 		ft_putendl_fd("Unknown error", 2);

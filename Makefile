@@ -1,22 +1,33 @@
 ##========== SOURCES ==========##
 
-SRC =	utils/utils.c \
-		parser/parser.c \
-		execution/raycaster.c \
-		execution/movment.c \
-		execution/ft_hooks.c \
-		drawing/draw_shape.c \
-		drawing/draw_lines.c \
-		drawing/minimap_bonus.c \
-		utils/vector_utils.c \
-		unleak.c \
-		error.c
+SRC =	mandatory/utils/utils.c \
+		mandatory/parser/parser.c \
+		mandatory/execution/raycaster.c \
+		mandatory/execution/movment.c \
+		mandatory/execution/ft_hooks.c \
+		mandatory/utils/vector_utils.c \
+		mandatory/drawing/draw_shapes.c \
+		mandatory/unleak.c \
+		mandatory/error.c \
+		mandatory/main.c
 
-MAIN = main.c
+BONUS_SRC =	bonus/utils/utils_bonus.c \
+			bonus/parser/parser_bonus.c \
+			bonus/execution/raycaster_bonus.c \
+			bonus/execution/movment_bonus.c \
+			bonus/execution/ft_hooks_bonus.c \
+			bonus/utils/vector_utils_bonus.c \
+			bonus/drawing/minimap_bonus.c \
+			bonus/drawing/draw_lines_bonus.c \
+			bonus/drawing/draw_shapes_bonus.c \
+			bonus/unleak_bonus.c \
+			bonus/error_bonus.c \
+			bonus/main_bonus.c
 
 ##========== NAMES ==========##
 
 NAME = cub3D
+BONUS = cub3D_bonus
 SRCS_DIR = src/
 OBJS_DIR = obj/
 LIBFT_DIR = libft
@@ -25,7 +36,7 @@ INCLUDE_DIR = includes
 ##========== OBJECTS ==========##
 
 OBJS = $(addprefix $(OBJS_DIR),$(SRC:.c=.o))
-MAIN_OBJ = $(addprefix $(OBJS_DIR),$(MAIN:.c=.o))
+BONUS_OBJS = $(addprefix $(OBJS_DIR),$(BONUS_SRC:.c=.o))
 
 ##========== COLORS ==========##
 
@@ -93,6 +104,10 @@ endif
 
 all : libmlx $(NAME)
 
+bonus : libmlx $(BONUS)
+
+
+
 libmlx:
 	@if [ ! -d "$(LIBMLX)" ]; then \
 		echo "$(DARK_GRAY)Directory $(LIBMLX) does not exist. Cloning the repository...$(BASE_COLOR)"; \
@@ -101,8 +116,12 @@ libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build
 	@make -C $(LIBMLX)/build --no-print-directory -j$(nproc)
 
-$(NAME) : $(LIBFT) $(OBJS) $(MAIN_OBJ)
-	@$(CC) -o $(NAME) $(CFLAGS) $(MAIN_OBJ) $(OBJS) $(LDFLAGS) $(MLXFLAGS) libft/libft.a
+$(NAME) : $(LIBFT) $(OBJS)
+	@$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LDFLAGS) $(MLXFLAGS) libft/libft.a
+	@echo "$(GREEN)-= cub3D compiled =-$(BASE_COLOR)"
+
+$(BONUS) : $(LIBFT) $(BONUS_OBJS)
+	@$(CC) -o $(BONUS) $(CFLAGS) $(BONUS_OBJS) $(LDFLAGS) $(MLXFLAGS) libft/libft.a
 	@echo "$(GREEN)-= cub3D compiled =-$(BASE_COLOR)"
 
 $(LIBFT) :
@@ -115,6 +134,7 @@ clean :
 
 fclean : clean
 	@rm -rf $(NAME)
+	@rm -rf $(BONUS)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo "$(CYAN)Files cleaned$(BASE_COLOR)"
 
@@ -140,6 +160,7 @@ define animations
 endef
 
 define loading
+	@$(eval INDEX=$(shell expr $(INDEX) + 1))
 	@echo "╔═══════════════════════════════════════════════════╗"
 	@echo -n "║"
 	$(loading_color)
@@ -152,7 +173,6 @@ define loading
 	done
 	@echo "$(BASE_COLOR)║" $(shell expr $(INDEX) \* 100 / $(NUM_SRC))%
 	@echo "╚═══════════════════════════════════════════════════╝"
-	@$(eval INDEX=$(shell expr $(INDEX) + 1))
 endef
 
 define loading_color

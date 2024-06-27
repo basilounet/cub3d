@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unleak.c                                           :+:      :+:    :+:   */
+/*   unleak_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:23:45 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 15:36:09 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:32:01 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
+
+void	free_bonuses(t_cub *cb)
+{
+	if (cb->pause.buttons)
+		free(cb->pause.buttons);
+}
 
 void	unleak(t_cub *cb)
 {
@@ -34,4 +40,5 @@ void	unleak(t_cub *cb)
 		mlx_delete_texture(cb->map.east_texture);
 	if (cb->map.bozo_texture)
 		mlx_delete_texture(cb->map.bozo_texture);
+	free_bonuses(cb);
 }

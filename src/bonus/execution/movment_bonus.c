@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movment.c                                          :+:      :+:    :+:   */
+/*   movment_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:05:53 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:33:42 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	update_player_facing(t_cub *cb)
 {
@@ -20,8 +20,7 @@ void	update_player_facing(t_cub *cb)
 
 	angle = 0;
 	mlx_get_mouse_pos(cb->mlx, &x, &y);
-	if (BONUS)
-		angle += (x - WIDTH / 2) * MOUSE_ROTATION_SPEED;
+	angle += (x - cb->width / 2) * MOUSE_ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 		angle -= ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
@@ -35,14 +34,13 @@ void	update_player_facing(t_cub *cb)
 				- cb->player.plane.y * sin(angle), cb->player.plane.x
 				* sin(angle) + cb->player.plane.y * cos(angle));
 	}
-	if (BONUS)
-		mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
+	mlx_set_mouse_pos(cb->mlx, cb->width / 2, cb->height / 2);
 }
 
 static int	is_wall_nearby(t_cub *cb, double new_x, double new_y)
 {
-	if (new_y < 0 && new_y >= cb->map.height && new_x < 0
-		&& new_x >= ft_strlen(cb->map.map[(int)new_y]))
+	if (new_y < 0 || new_y >= cb->map.height || new_x < 0
+		|| new_x >= ft_strlen(cb->map.map[(int)new_y]))
 		return (1);
 	if (cb->map.map[(int)(new_y + 0.2)][(int)new_x] == '1')
 		return (1);

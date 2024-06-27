@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:59:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/24 18:22:34 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:41:14 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ mlx_texture_t	*get_wall_texture(t_cub *cb, t_raycaster *ray)
 	return (cb->map.bozo_texture);
 }
 
+void	try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, int color)
+{
+	if (x < 0 || x > img->width || y < 0 || y > img->height)
+		return ;
+	mlx_put_pixel(img, x, y, color);
+}
+
 static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 {
 	mlx_texture_t	*txt;
@@ -90,13 +97,13 @@ static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 	int				color;
 
 	double wallX; // where exactly the wall was hit
-	ray->lineHeight = (int)(HEIGHT / ray->perpWallDist);
-	ray->drawStart = -ray->lineHeight / 2 + HEIGHT / 2;
+	ray->lineHeight = (int)(cb->height / ray->perpWallDist);
+	ray->drawStart = -ray->lineHeight / 2 + cb->height / 2;
 	if (ray->drawStart < 0)
 		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + HEIGHT / 2;
-	if (ray->drawEnd >= HEIGHT)
-		ray->drawEnd = HEIGHT - 1;
+	ray->drawEnd = ray->lineHeight / 2 + cb->height / 2;
+	if (ray->drawEnd >= cb->height)
+		ray->drawEnd = cb->height - 1;
 	if (ray->side == 0)
 		wallX = cb->player.pos.y + ray->perpWallDist * ray->raydir.y;
 	else
@@ -108,7 +115,7 @@ static void	draw_screen(t_cub *cb, t_raycaster *ray, int x)
 			&& ray->raydir.y < 0))
 		texX = txt->width - texX - 1;
 	step = 1.0 * txt->height / ray->lineHeight;
-	texPos = (ray->drawStart - HEIGHT / 2 + ray->lineHeight / 2) * step;
+	texPos = (ray->drawStart - cb->height / 2 + ray->lineHeight / 2) * step;
 	for (int y = ray->drawStart; y < ray->drawEnd; y++)
 	{
 		texY = (int)texPos & (txt->height - 1);
@@ -129,10 +136,10 @@ static void	raycaster_loop(t_cub *cb, t_player pl)
 	int			x;
 
 	x = 0;
-	while (x < WIDTH)
+	while (x < cb->width)
 	{
 		ray = (t_raycaster){0};
-		ray.camera.x = 2 * x / (double)WIDTH - 1;
+		ray.camera.x = 2 * x / (double)cb->width - 1;
 		ray.raydir.x = pl.facing.x + pl.plane.x * ray.camera.x;
 		ray.raydir.y = pl.facing.y + pl.plane.y * ray.camera.x;
 		raycaster_set_var(cb->player, &ray);
@@ -150,9 +157,9 @@ static void	raycaster_loop(t_cub *cb, t_player pl)
 
 void	raycaster(t_cub *cb)
 {
-	draw_rectangle(cb->image, set_vector(0, 0), set_vector(WIDTH, HEIGHT / 2),
+	draw_rectangle(cb->image, set_vector(0, 0), set_vector(cb->width, cb->height / 2),
 		cb->map.ceiling_color);
-	draw_rectangle(cb->image, set_vector(0, HEIGHT / 2), set_vector(WIDTH,
-			HEIGHT / 2), cb->map.floor_color);
+	draw_rectangle(cb->image, set_vector(0, cb->height / 2), set_vector(cb->width,
+			cb->height / 2), cb->map.floor_color);
 	raycaster_loop(cb, cb->player);
 }
