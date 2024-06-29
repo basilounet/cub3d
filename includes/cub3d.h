@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 14:47:41 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:09:19 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t			*mlx;
-	int				width;
-	int				height;
 	mlx_image_t		*image;
 	t_map			map;
 	t_player		player;

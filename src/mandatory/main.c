@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 14:45:21 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:16:33 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	launch_mlx(t_cub *cb)
 {
-	cb->width = WIDTH;
-	cb->height = HEIGHT;
 	cb->player.fov = 66;
 	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
 	cb->player.plane = set_vector(cb->player.length_plane *
@@ -26,10 +24,10 @@ void	launch_mlx(t_cub *cb)
 		error(cb, MISSING_BOZO_ERROR);
 	// mlx_set_setting(MLX_MAXIMIZED, true);
 	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	cb->mlx = mlx_init(cb->width, cb->height, "3dcub", true);
-	cb->image = mlx_new_image(cb->mlx, cb->width, cb->height);
+	cb->mlx = mlx_init(WIDTH, HEIGHT, "3dcub", false);
+	cb->image = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(cb->mlx, cb->image, 0, 0);
-	mlx_set_mouse_pos(cb->mlx, cb->width / 2, cb->height / 2);
+	mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
 	mlx_loop(cb->mlx);

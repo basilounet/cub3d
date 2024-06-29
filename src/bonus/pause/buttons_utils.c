@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hooks.c                                         :+:      :+:    :+:   */
+/*   buttons_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 17:15:35 by bvasseur         ###   ########.fr       */
+/*   Created: 2024/06/27 15:06:36 by bvasseur          #+#    #+#             */
+/*   Updated: 2024/06/29 17:18:17 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
-void	ft_loop_hook(void *param)
+int	is_in_button(t_cub *cb, t_button button)
 {
-	t_cub	*cb;
+	int	x;
+	int	y;
 
-	cb = (t_cub *)param;
-	update_player_facing(cb);
-	change_pos(cb);
-	raycaster(cb);
-}
-
-void	ft_key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_cub	*cb;
-
-	cb = (t_cub *)param;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(cb->mlx);
+	mlx_get_mouse_pos(cb->mlx, &x, &y);
+	return (x >= cb->mlx->width * button.pos.x && x < cb->mlx->width * button.pos.x
+		+ cb->mlx->width * button.size.x && y >= cb->mlx->height * button.pos.y
+		&& y < cb->mlx->height * button.pos.y + cb->mlx->height * button.size.y);
 }

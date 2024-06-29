@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 13:22:22 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/29 19:02:59 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 # include <math.h>
 # include <stdio.h>
 # define WIDTH 1000
-# define HEIGHT 480
+# define HEIGHT 550
 # define MINIMAP_WIDTH 150
 # define MINIMAP_HEIGHT 150
 # define MINIMAP_SQUARE_SIZE 15
 # define ROTATION_SPEED 0.04
 # define MOUSE_ROTATION_SPEED 0.0005
 # define MOVE_SPEED 0.05
-# define PAUSE_MENU_COLOR 0xE0A060C0
+# define PAUSE_MENU_COLOR 0xE0A060E0
 
 # define PAUSE 0b1
 
@@ -50,17 +50,31 @@ enum					e_errors
 	TOO_MANY_ARG_ON_LINE = 13,
 	NO_FILE_ERROR = 14,
 	MISSING_BOZO_ERROR = 15,
+	MLX_ERROR = 16,
 	MAX_ERROR,
 };
 
 typedef struct s_cub	t_cub;
 
+typedef struct s_vector
+{
+	double				x;
+	double				y;
+}						t_vector;
+
 typedef struct s_button
 {
-	int					x;
-	int					y;
+	char				*name;
+	t_vector			pos;
+	t_vector			size;
+	t_vector			text_size;
+	t_vector			text_offset;
 	char				*text;
+	char				*txt_name;
 	void				(*callback)(t_cub *);
+	mlx_texture_t		*txt;
+	mlx_image_t			*bg;
+	mlx_image_t			*text_img;
 }						t_button;
 
 typedef struct s_pause
@@ -69,12 +83,6 @@ typedef struct s_pause
 	t_button			*buttons;
 	int					buttons_count;
 }						t_pause;
-
-typedef struct s_vector
-{
-	double				x;
-	double				y;
-}						t_vector;
 
 typedef struct s_raycaster
 {
@@ -131,8 +139,6 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t				*mlx;
-	int					width;
-	int					height;
 	mlx_image_t			*image;
 	t_map				map;
 	t_player			player;
@@ -202,9 +208,8 @@ void					change_pos(t_cub *cb);
 
 void					ft_loop_hook(void *param);
 void					ft_key_hook(mlx_key_data_t keydata, void *param);
-void					ft_resize_hook(int32_t width, int32_t height,
-							void *param);
-void					create_pause_screen(t_cub *cb, int action);
+void					ft_mouse_hook(mouse_key_t button, action_t action,
+							modifier_key_t mods, void *param);
 
 /*=============== DRAW ===============*/
 
@@ -220,15 +225,34 @@ void					draw_triangle(mlx_image_t *img, t_vector pos,
 void					draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
 							int color);
 
+/*=============== PAUSE ===============*/
+
+void					create_pause_screen(t_cub *cb, int action);
+void					change_pause_state(t_cub *cb);
+int						is_in_button(t_cub *cb, t_button button);
+void					pause_button_press(t_cub *cb);
+void					place_buttons(t_cub *cb);
+
+/*=============== CALLBACKS ===============*/
+
+void					exit_callback(t_cub *cb);
+void					scale_1_3(t_cub *cb);
+void					scale_2_3(t_cub *cb);
+void					scale_1_1(t_cub *cb);
+
+
 /*=============== UTILS ===============*/
 
 t_vector				set_vector(double x, double y);
 void					free_array(char **array);
 int						find_max_len(char **file, int start, int height);
+t_vector				multiply_vector(t_vector vector, double multiplier);
 
 /*=============== UNLEAK ===============*/
 
 void					unleak(t_cub *cb);
+void					*ft_delete_textures(int nb, ...);
+void					*ft_delete_images(t_cub *cb, int nb, ...);
 
 /*=============== ERROR ===============*/
 

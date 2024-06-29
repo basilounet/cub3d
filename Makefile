@@ -27,6 +27,9 @@ BONUS_SRC =	bonus/utils/utils_bonus.c \
 			bonus/parser/player_bonus.c \
 			bonus/parser/param_bonus.c \
 			bonus/parser/map_bonus.c \
+			bonus/pause/pause.c \
+			bonus/pause/buttons_utils.c \
+			bonus/pause/buttons_callback.c \
 			bonus/execution/raycaster_bonus.c \
 			bonus/execution/movment_bonus.c \
 			bonus/execution/ft_hooks_bonus.c \
@@ -119,8 +122,6 @@ endif
 all : libmlx $(NAME)
 
 bonus : libmlx $(BONUS)
-
-
 
 libmlx:
 	@if [ ! -d "$(LIBMLX)" ]; then \

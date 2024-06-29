@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 11:34:04 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:27:27 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	handle_fov_change(t_cub *cb, mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT \
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_REPEAT
 		&& cb->player.fov < 120)
 		cb->player.fov += 2;
-	if (keydata.key == MLX_KEY_P && keydata.action == MLX_REPEAT \
+	if (keydata.key == MLX_KEY_P && keydata.action == MLX_REPEAT
 		&& cb->player.fov > 30)
 		cb->player.fov -= 2;
 	if (keydata.key == MLX_KEY_P || keydata.key == MLX_KEY_O)
@@ -47,19 +47,18 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 
 	cb = (t_cub *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		cb->flags ^= PAUSE;
-	cb->pause.image->enabled = cb->flags & PAUSE;
+		change_pause_state(cb);
 	handle_fov_change(cb, keydata);
 }
 
-void ft_resize_hook(int32_t width, int32_t height, void* param)
+void	ft_mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
+		void *param)
 {
 	t_cub	*cb;
 
+	(void)mods;
 	cb = (t_cub *)param;
-	cb->width = width;
-	cb->height = height;
-	mlx_resize_image(cb->image, width, height);
-	raycaster(cb);
-	create_pause_screen(cb, 1);
+	if (cb->flags & PAUSE && button == MLX_MOUSE_BUTTON_LEFT
+		&& action == MLX_PRESS)
+		pause_button_press(cb);
 }
