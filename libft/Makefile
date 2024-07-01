@@ -73,7 +73,7 @@ SRC = ft_abs.c \
 NAME = libft.a
 SRCS_DIR = src/
 OBJS_DIR = obj/
-INCLUDE_DIR = ../includes
+INCLUDE_DIR = includes/
 
 ##========== OBJECTS ==========##
 

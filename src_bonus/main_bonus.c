@@ -6,14 +6,29 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/30 13:44:27 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:23:53 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 
+void	create_weapons_textures(t_cub *cb)
+{
+	(void)cb;
+	//mlx_texture_t	*weapons_texture;
+	//mlx_image_t		*weapons_image;
+	
+	//weapons_texture = mlx_load_png("textures/babanana.png");
+	//if (!weapons_texture)
+	//	error(cb, MISSING_BOZO_ERROR);
+	//weapons_image = mlx_texture_to_image(cb->mlx, weapons_texture);
+	//mlx_image_to_window(cb->mlx, weapons_image, 1000, 1000);
+}
+
 void	launch_mlx(t_cub *cb)
 {
+	cb->width = WIDTH;
+	cb->height = HEIGHT;
 	cb->player.fov = 66;
 	cb->player.length_plane = tan(cb->player.fov / 2 * (M_PI / 180));
 	cb->player.plane = set_vector(cb->player.length_plane *
@@ -36,7 +51,7 @@ void	launch_mlx(t_cub *cb)
 	scale_2_3(cb);
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
-	mlx_mouse_hook(cb->mlx, ft_mouse_hook, cb);	
+	mlx_mouse_hook(cb->mlx, ft_mouse_hook, cb);
 	raycaster(cb);
 	change_pause_state(cb);
 	mlx_loop(cb->mlx);

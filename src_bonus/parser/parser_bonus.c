@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/27 13:11:13 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:11:21 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	parse(t_cub *cb, char *arg)
 	cb->map.file = ft_slurp(arg);
 	if (!cb->map.file)
 		error(cb, MALLOC_ERROR);
+	cb->map.height_file = ft_maplen(cb->map.file);
 	set_param(cb);
 	check_param(cb);
 	check_map(cb);

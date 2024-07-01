@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/28 15:27:27 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:21:44 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		change_pause_state(cb);
 	handle_fov_change(cb, keydata);
+		//////////////////////////////////////////////////////////////////////
 }
 
 void	ft_mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
 		void *param)
 {
-	t_cub	*cb;
+	t_cub *cb;
 
 	(void)mods;
 	cb = (t_cub *)param;
+	raycaster(cb);
 	if (cb->flags & PAUSE && button == MLX_MOUSE_BUTTON_LEFT
 		&& action == MLX_PRESS)
 		pause_button_press(cb);

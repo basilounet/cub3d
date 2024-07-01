@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _utils.c                                    :+:      :+:    :+:   */
+/*   vector_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 15:06:36 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/30 13:32:30 by bvasseur         ###   ########.fr       */
+/*   Created: 2024/06/06 15:03:38 by bvasseur          #+#    #+#             */
+/*   Updated: 2024/06/27 11:32:10 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 
-int	is_in_button(t_cub *cb, t_vector pos, t_vector size)
+t_vector	set_vector(double x, double y)
 {
-	int	x;
-	int	y;
+	t_vector	result_vector;
 
-	mlx_get_mouse_pos(cb->mlx, &x, &y);
-	return (x >= cb->mlx->width * pos.x && x < cb->mlx->width * pos.x
-		+ cb->mlx->width * size.x && y >= cb->mlx->height * pos.y
-		&& y < cb->mlx->height * pos.y + cb->mlx->height * size.y);
+	result_vector.x = x;
+	result_vector.y = y;
+	return (result_vector);
 }
 
-// double	get_percentage_pos(t_vector pos, t_vector size, double p)
-// {
-// 	return (ft_clamp(size.x * p, pos.x, ))
-// }
+double	vector_length(t_vector vec)
+{
+	return (sqrt(vec.x * vec.x + vec.y * vec.y));
+}

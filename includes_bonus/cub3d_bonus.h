@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/01 15:49:37 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:21:20 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 # include <math.h>
 # include <stdio.h>
 # define WIDTH 1000
-# define HEIGHT 550
+# define HEIGHT 480
 # define MINIMAP_WIDTH 150
 # define MINIMAP_HEIGHT 150
 # define MINIMAP_SQUARE_SIZE 15
 # define ROTATION_SPEED 0.04
 # define MOUSE_ROTATION_SPEED 0.0005
 # define MOVE_SPEED 0.05
-# define PAUSE_MENU_COLOR 0xE0A060E0
+# define PAUSE_MENU_COLOR 0xE0A060C0
 
 # define PAUSE 0b1
 
@@ -143,6 +143,7 @@ typedef struct s_map
 	int					*par;
 	int					width;
 	int					height;
+	int					height_file;
 	int					floor_color;
 	int					ceiling_color;
 	mlx_texture_t		*north_texture;
@@ -155,6 +156,8 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t				*mlx;
+	int					width;
+	int					height;
 	mlx_image_t			*image;
 	t_map				map;
 	t_player			player;
@@ -224,6 +227,8 @@ void					change_pos(t_cub *cb);
 
 void					ft_loop_hook(void *param);
 void					ft_key_hook(mlx_key_data_t keydata, void *param);
+void					ft_resize_hook(int32_t width, int32_t height,
+							void *param);
 void					ft_mouse_hook(mouse_key_t button, action_t action,
 							modifier_key_t mods, void *param);
 
@@ -261,7 +266,6 @@ void					scale_1_1(t_cub *cb);
 t_vector				set_vector(double x, double y);
 void					free_array(char **array);
 int						find_max_len(char **file, int start, int height);
-t_vector				multiply_vector(t_vector vector, double multiplier);
 
 /*=============== UNLEAK ===============*/
 
