@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/26 08:41:35 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:27:42 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	parse(t_cub *cb, char *arg)
 	cb->map.file = ft_slurp(arg);
 	if (!cb->map.file)
 		error(cb, MALLOC_ERROR);
+	cb->map.height_file = ft_maplen(cb->map.file);
 	set_param(cb);
 	check_param(cb);
 	check_map(cb);

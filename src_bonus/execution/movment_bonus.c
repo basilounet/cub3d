@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 18:57:47 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:33:42 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	update_player_facing(t_cub *cb)
 
 	angle = 0;
 	mlx_get_mouse_pos(cb->mlx, &x, &y);
-	angle += (x - cb->mlx->width / 2) * MOUSE_ROTATION_SPEED;
+	angle += (x - cb->width / 2) * MOUSE_ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 		angle -= ROTATION_SPEED;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
@@ -34,7 +34,7 @@ void	update_player_facing(t_cub *cb)
 				- cb->player.plane.y * sin(angle), cb->player.plane.x
 				* sin(angle) + cb->player.plane.y * cos(angle));
 	}
-	mlx_set_mouse_pos(cb->mlx, cb->mlx->width / 2, cb->mlx->height / 2);
+	mlx_set_mouse_pos(cb->mlx, cb->width / 2, cb->height / 2);
 }
 
 static int	is_wall_nearby(t_cub *cb, double new_x, double new_y)

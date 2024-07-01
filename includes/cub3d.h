@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 15:09:19 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:26:34 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_map
 	int				*par;
 	int				width;
 	int				height;
+	int				height_file;
 	int				floor_color;
 	int				ceiling_color;
 	mlx_texture_t	*north_texture;
@@ -99,6 +100,8 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t			*mlx;
+	int				width;
+	int				height;
 	mlx_image_t		*image;
 	t_map			map;
 	t_player		player;

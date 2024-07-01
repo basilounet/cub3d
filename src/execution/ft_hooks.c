@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 17:15:35 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:16:52 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,15 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 	cb = (t_cub *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(cb->mlx);
+}
+
+void ft_resize_hook(int32_t width, int32_t height, void* param)
+{
+	t_cub	*cb;
+
+	cb = (t_cub *)param;
+	cb->width = width;
+	cb->height = height;
+	mlx_resize_image(cb->image, width, height);
+	raycaster(cb);
 }
