@@ -8,6 +8,7 @@ SRC = ft_abs.c \
 	ft_calloc.c \
 	ft_countc.c \
 	ft_free_ptr.c \
+	ft_fmax.c \
 	ft_is_x.c \
 	ft_itoa.c \
 	ft_itob.c \

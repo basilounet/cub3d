@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:54 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 19:03:06 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/30 13:44:27 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,24 @@ void	launch_mlx(t_cub *cb)
 	cb->map.bozo_texture = mlx_load_png("textures/bozo.png");
 	if (!cb->map.bozo_texture)
 		error(cb, MISSING_BOZO_ERROR);
-	cb->flags = 0 | PAUSE;
 	cb->minimap.height = MINIMAP_HEIGHT;
 	cb->minimap.width = MINIMAP_WIDTH;
 	cb->minimap.square_size = MINIMAP_SQUARE_SIZE;
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "3dcub", false);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	mlx_set_window_pos(cb->mlx, 0, 0);
 	cb->image = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
 	cb->minimap.image = mlx_new_image(cb->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	mlx_image_to_window(cb->mlx, cb->image, 0, 0);
 	mlx_image_to_window(cb->mlx, cb->minimap.image, 10, 10);
-	create_pause_screen(cb, 0);
+	create_pause_screen(cb);
 	scale_2_3(cb);
-	mlx_set_window_pos(cb->mlx, 0, 0);
-	mlx_set_mouse_pos(cb->mlx, WIDTH / 2, HEIGHT / 2);
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);
 	mlx_mouse_hook(cb->mlx, ft_mouse_hook, cb);	
 	raycaster(cb);
+	change_pause_state(cb);
 	mlx_loop(cb->mlx);
-	ft_delete_images(cb, 3, cb->image, cb->minimap.image, cb->pause.image);
 }
 
 int32_t	main(int argc, char **argv)
@@ -54,6 +52,5 @@ int32_t	main(int argc, char **argv)
 	cb.map.height = ft_maplen(cb.map.map);
 	launch_mlx(&cb);
 	unleak(&cb);
-	mlx_terminate(cb.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/29 19:02:59 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:49:37 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_vector
 
 typedef struct s_button
 {
-	char				*name;
 	t_vector			pos;
 	t_vector			size;
 	t_vector			text_size;
@@ -77,11 +76,28 @@ typedef struct s_button
 	mlx_image_t			*text_img;
 }						t_button;
 
+typedef struct s_slider
+{
+	t_vector			pos;
+	t_vector			size;
+	t_button			slider;
+	t_button			button;
+	t_vector			button_offset;
+	t_vector			percentage_range;
+	void				(*callback)(t_cub *, struct s_slider *);
+	int					min;
+	int					max;
+	int					value;
+	double				percentage;
+}						t_slider;
+
 typedef struct s_pause
 {
 	mlx_image_t			*image;
 	t_button			*buttons;
 	int					buttons_count;
+	t_slider			*sliders;
+	int					sliders_count;
 }						t_pause;
 
 typedef struct s_raycaster
@@ -227,9 +243,9 @@ void					draw_line(mlx_image_t *img, t_vector p0, t_vector p1,
 
 /*=============== PAUSE ===============*/
 
-void					create_pause_screen(t_cub *cb, int action);
+void					create_pause_screen(t_cub *cb);
 void					change_pause_state(t_cub *cb);
-int						is_in_button(t_cub *cb, t_button button);
+int						is_in_button(t_cub *cb, t_vector pos, t_vector size);
 void					pause_button_press(t_cub *cb);
 void					place_buttons(t_cub *cb);
 
@@ -239,7 +255,6 @@ void					exit_callback(t_cub *cb);
 void					scale_1_3(t_cub *cb);
 void					scale_2_3(t_cub *cb);
 void					scale_1_1(t_cub *cb);
-
 
 /*=============== UTILS ===============*/
 

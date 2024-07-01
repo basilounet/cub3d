@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:08:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/23 13:49:05 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:58:30 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ long				ft_max(int a, int b);
 long				ft_min(int a, int b);
 int					ft_clamp(int value, int min, int max);
 double				if_x_replace_by(double num, double equal, double replace);
+double				ft_fmax(double a, double b);
+double				ft_fmin(double a, double b);
+double				ft_fclamp(double value, double min, double max);
 size_t				ft_mod(int nb, int mod);
 size_t				ft_power(int a, int b);
 int					ft_rrand(int init, unsigned int seed, unsigned int min,
