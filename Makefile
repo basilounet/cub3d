@@ -10,6 +10,7 @@ SRC =	utils/utils.c \
 		parser/param.c \
 		parser/map.c \
 		execution/raycaster.c \
+		execution/raycaster_utils.c \
 		execution/movment.c \
 		execution/ft_hooks.c \
 		utils/vector_utils.c \
@@ -20,6 +21,7 @@ SRC =	utils/utils.c \
 
 SRC_B =	utils/utils_bonus.c \
 		parser/parser_bonus.c \
+		parser/parser_utils_bonus.c \
 		parser/color_bonus.c \
 		parser/checker_map_bonus.c \
 		parser/checker_color_bonus.c \
@@ -27,9 +29,15 @@ SRC_B =	utils/utils_bonus.c \
 		parser/player_bonus.c \
 		parser/param_bonus.c \
 		parser/map_bonus.c \
-		pause/pause.c \
+		parser/door_bonus.c \
+		pause/pause_bonus.c \
+		pause/sliders_bonus.c \
+		pause/buttons_bonus.c \
 		pause/buttons_utils.c \
+		pause/minimap_callback_bonus.c \
+		pause/colors_callback_bonus.c \
 		pause/buttons_callback.c \
+		pause/sliders_callback_bonus.c \
 		execution/raycaster_bonus.c \
 		execution/movment_bonus.c \
 		execution/ft_hooks_bonus.c \
@@ -37,7 +45,17 @@ SRC_B =	utils/utils_bonus.c \
 		drawing/minimap_bonus.c \
 		drawing/draw_lines_bonus.c \
 		drawing/draw_shapes_bonus.c \
+		enemies/enemy_ai_bonus.c \
+		enemies/enemy_utils_bonus.c \
+		enemies/enemy_raycaster_bonus.c \
+		enemies/items_bonus.c \
+		weapons/weapons_bonus.c \
+		weapons/weapons_animation_bonus.c \
+		weapons/weapons_interaction_bonus.c \
+		time_bonus.c \
+		music_bonus.c \
 		unleak_bonus.c \
+		unleak_utils_bonus.c \
 		error_bonus.c \
 		main_bonus.c
 

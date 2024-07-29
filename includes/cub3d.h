@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/28 15:26:34 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:41:23 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ enum				e_errors
 	CLOSED_ERROR = 12,
 	TOO_MANY_ARG_ON_LINE = 13,
 	NO_FILE_ERROR = 14,
-	MISSING_BOZO_ERROR = 15,
+	MISSING_ESSENTIAL_TEXTURE_ERROR = 15,
 	MAX_ERROR,
 };
 
@@ -68,6 +68,12 @@ typedef struct s_raycaster
 	int				line_height;
 	int				draw_start;
 	int				draw_end;
+	int				tex_x;
+	double			step;
+	double			tex_pos;
+	int				tex_y;
+	int				color;
+	double 			wall_x;
 }					t_raycaster;
 
 typedef struct s_player
@@ -100,8 +106,6 @@ typedef struct s_map
 typedef struct s_cub
 {
 	mlx_t			*mlx;
-	int				width;
-	int				height;
 	mlx_image_t		*image;
 	t_map			map;
 	t_player		player;
@@ -148,6 +152,9 @@ void				parse(t_cub *cb, char *arg);
 /*=============== RAYTRACER ===============*/
 
 void				raycaster(t_cub *cb);
+mlx_texture_t		*get_wall_texture(t_cub *cb, t_raycaster *ray);
+void				try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, int color);
+void				print_pixel(t_cub *cb, t_raycaster *ray, int x, mlx_texture_t *txt);
 
 /*=============== MOVEMENT ===============*/
 

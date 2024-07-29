@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/28 17:11:21 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:23:18 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,77 @@ void	check_map(t_cub *cb)
 	check_closed_map(cb);
 }
 
+void	save_entities(t_cub *cb, int i, int	*k)
+{
+	int	j;
+
+	j = -1;
+	while (cb->map.map[i][++j])
+	{
+		if (cb->map.map[i][j] == 'I')
+		{
+			cb->entities[*k].pos = set_vector(j, i);
+			cb->entities[*k].texture = cb->map.item_texture;
+			cb->entities[*k].type = ITEM;
+			cb->nb_of_items++;
+			(*k)++;
+		}
+		else if (cb->map.map[i][j] == 'M')
+		{
+			cb->entities[*k].pos = set_vector(j, i);
+			cb->entities[*k].facing = set_vector(1, 0);
+			cb->entities[*k].fov = 90;
+			cb->entities[*k].speed = ENEMY_SPEED;
+			cb->entities[*k].player_dist = 0;
+			cb->entities[*k].texture = cb->map.enemy_texture;
+			cb->entities[*k].type = ENEMY;
+			(*k)++;
+		}
+	}
+}
+
+void	set_entities(t_cub *cb)
+{
+	int	k;
+	int	i;
+
+	k = 0;
+	i = 0;
+	cb->entities = ft_calloc(sizeof(t_entity), (cb->nb_of_entities + 1));
+	if (!cb->entities)
+		error(cb, MALLOC_ERROR);
+	while (cb->map.map[i])
+	{
+		save_entities(cb, i, &k);
+		i++;
+	}
+}
+
+static void	set_doors(t_cub *cb)
+{
+	int	count;
+	int	i;
+	int	j;
+
+	cb->doors = ft_calloc(sizeof(t_door), cb->nb_of_doors + 1);
+	if (!cb->doors)
+		error(cb, MALLOC_ERROR);
+	i = 0;
+	count = 0;
+	while (cb->map.map[i])
+	{
+		j = 0;
+		while (cb->map.map[i][j])
+		{
+			if (cb->map.map[i][j] == 'D')
+				cb->doors[count++] = (t_door){{j, i}, cb->map.map[i][j + 1] == \
+				'1' && cb->map.map[i][j + 1] == '1', CLOSE, 0, 0.5};
+			j++;
+		}
+		i++;
+	}
+}
+
 void	parse(t_cub *cb, char *arg)
 {
 	char	*name;
@@ -52,8 +123,10 @@ void	parse(t_cub *cb, char *arg)
 	if (!cb->map.file)
 		error(cb, MALLOC_ERROR);
 	cb->map.height_file = ft_maplen(cb->map.file);
+	load_png(cb);
 	set_param(cb);
 	check_param(cb);
 	check_map(cb);
-	ft_print_map(cb->map.map, 1);
+	set_entities(cb);
+	set_doors(cb);
 }

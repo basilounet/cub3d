@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:47:09 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/28 17:10:51 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:51:51 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ static void	copy_map(t_cub *cb, char **map, int start, int len)
 	while (cb->map.file[start][j])
 	{
 		if (cb->map.file[start][j] != '\n' && cb->map.file[start][j] != ' ')
+		{
 			map[i][j] = cb->map.file[start][j];
+			if (cb->map.file[start][j] == 'I' || cb->map.file[start][j] == 'M')
+				cb->nb_of_entities++;
+		}
 		else if (cb->map.file[start][j] == ' ')
 		{
 			if (check_space(cb, start, j, len))
@@ -50,11 +54,7 @@ static void	copy_map(t_cub *cb, char **map, int start, int len)
 			map[i][j] = '\0';
 		j++;
 	}
-	while (j < len)
-	{
-		map[i][j] = '\0';
-		j++;
-	}
+	fill_map(map, i, j, len);
 	i++;
 }
 

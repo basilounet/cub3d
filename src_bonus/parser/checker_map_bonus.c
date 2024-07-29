@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_map_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:10:19 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/28 17:09:31 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:01:04 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ void	check_char(t_cub *cb)
 		while (cb->map.map[i][j])
 		{
 			if (cb->map.map[i][j] != '0' && cb->map.map[i][j] != '1'
-				&& !ft_isplayer(cb->map.map[i][j]) && cb->map.map[i][j] != ' ')
+				&& !ft_isplayer(cb->map.map[i][j]) && \
+				cb->map.map[i][j] != ' ' && cb->map.map[i][j] != 'D' && \
+				cb->map.map[i][j] != 'M' && cb->map.map[i][j] != 'I')
 				error(cb, BADCHAR_ERROR);
 			if (ft_isplayer(cb->map.map[i][j]))
 				check_player(cb, &status, i, j);
+			if (cb->map.map[i][j] == 'D')
+				cb->nb_of_doors++;
 			j++;
 		}
 		i++;
@@ -96,6 +100,8 @@ void	check_closed_map(t_cub *cb)
 			{
 				check_borders(cb, i, j);
 				check_near_char(cb, i, j);
+				if (cb->map.map[i][j] == 'D')
+					check_door(cb, i, j);
 			}
 			j++;
 		}
