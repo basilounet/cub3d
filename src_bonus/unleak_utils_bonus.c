@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unleak_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 14:23:45 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/17 14:23:41 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:33:54 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ void	delete_img_text(t_cub *cb)
 		cb->map.door_texture, cb->map.you_died_texture, \
 		cb->map.item_texture, cb->map.you_win_texture, \
 		cb->weapon.first_texture, cb->weapon.second_texture);
-	ft_delete_images(cb, 10, cb->image, cb->minimap.image, \
-	cb->pause.image, cb->map.death_image, cb->weapon.first_weapon[0], \
-	cb->weapon.first_weapon[1], cb->weapon.first_weapon[2], \
-	cb->weapon.second_weapon[0], cb->weapon.second_weapon[1], \
-	cb->weapon.second_weapon[2]);
+	ft_delete_images(cb, 4, cb->image, cb->minimap.image, \
+		cb->pause.image, cb->map.death_image);
+	if (cb->weapon.first_weapon)
+		ft_delete_images(cb, 3, cb->weapon.first_weapon[0], \
+			cb->weapon.first_weapon[1], cb->weapon.first_weapon[2]);
+	if (cb->weapon.second_weapon)
+		ft_delete_images(cb, 3, cb->weapon.second_weapon[0], \
+			cb->weapon.second_weapon[1], cb->weapon.second_weapon[2]);
 }

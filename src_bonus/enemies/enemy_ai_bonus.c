@@ -6,7 +6,7 @@
 /*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:32:14 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/28 18:35:09 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:58:35 by bvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,21 @@ int enemy_nb)
 }
 
 void	check_player_collision(t_cub *cb, t_player pl, t_entity *entities, \
-int nb)
+	int nb)
 {
 	static int	count = 0;
 	t_entity	enemy;
 	int			i;
 
 	i = -1;
-	while (++i < nb)
+	while (++i < nb && (cb->flags & GOD) == 0)
 	{
 		if (entities[i].type == ENEMY)
 		{
 			enemy = entities[i];
-			if (pl.pos.x > enemy.pos.x - .4 && pl.pos.x < enemy.pos.x + .4 && \
-				pl.pos.y > enemy.pos.y - .4 && pl.pos.y < enemy.pos.y + .4)
+			if (pl.pos.x > enemy.pos.x - .55 && pl.pos.x < enemy.pos.x + .55 && \
+				pl.pos.y > enemy.pos.y - .55 && pl.pos.y < enemy.pos.y + .55)
 			{
-				kill_sounds();
 				cb->flags |= DEAD;
 				if (count == 0)
 					cb->flags ^= PAUSE;

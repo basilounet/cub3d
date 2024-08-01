@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/29 15:02:13 by bvasseur         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2024/07/30 16:12:08 by bvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/31 09:09:36 by amolbert         ###   ########.fr       */
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +34,13 @@
 # define JIGGLE_FORCE			15
 # define ENEMY_SPEED			0.025
 # define ENEMY_AGRO_RANGE		4.5
-# define PAUSE_MENU_COLOR		0xE0A060C0
-# define FOG_DISTANCE			3
+# define PAUSE_MENU_COLOR		0xE0A060B0
+# define DOOR_OPENING_SPEED		0.02
+# define DOOR_OPENING_DISTANCE	3.5
+# define FOG_DISTANCE			7
 # define FOG					0x0
 # define LIGHT_SIZE				0.25
-# define LIGHT_DISTANCE_MULTIPLIER 10
-# define LIGHT_EXPO				3.0
+# define LIGHT_DISTANCE_MULTIPLIER 8
 
 # define PAUSE					0b1
 # define MOUSE_PRESSED			0b10
@@ -161,7 +166,7 @@ typedef struct s_raycaster
 	int					draw_end;
 	int					tex_x;
 	double				step;
-	double				texPos;
+	double				tex_pos;
 	int					tex_y;
 	double				wall_x;
 }						t_raycaster;
@@ -342,10 +347,15 @@ void					save_color(t_cub *cb, char *color, int count, char *id);
 void					parse(t_cub *cb, char *arg);
 void					fill_map(char **map, int i, int j, int len);
 void					load_png(t_cub *cb);
+void					save_entities(t_cub *cb, int i, int	*k);
 
-/*=============== RAYTRACER ===============*/
+/*=============== RAYTCASTER ===============*/
 
 void					raycaster(t_cub *cb);
+void					raycaster_door(t_cub *cb, t_raycaster *ray);
+void					animate_doors(t_cub *cb);
+void					draw_screen(t_cub *cb, t_raycaster *ray);
+mlx_texture_t			*get_wall_texture(t_cub *cb, t_raycaster *ray);
 
 /*=============== MOUVMENT ===============*/
 
@@ -365,6 +375,7 @@ void					ft_mouse_hook(mouse_key_t button, action_t action,
 /*=============== LIGHT	 ===============*/
 
 double					get_light_percentage(int x, int y);
+int						get_color(t_cub *cb, t_raycaster *ray, mlx_texture_t *txt);
 
 /*=============== SOUNDS	 ===============*/
 
@@ -456,5 +467,18 @@ void					*ft_delete_images(t_cub *cb, int nb, ...);
 /*=============== ERROR ===============*/
 
 void					error(t_cub *cb, int error_num);
+
+# define GOD 0b10000000000000000000000000000000
+# define STRING uint_least32_t
+# define INPUT static
+# define MAIN const
+# define BUFFER god[10]
+# define ELSE =
+# define EXPAND '`' +
+# define EXPIRE {'P'
+# define WILDCARD - '$'
+# define STACK (short)
+# define MAXINT '(' + '\r' + 'H' WILDCARD,
+void					god_mod(t_cub *cb, mlx_key_data_t key);
 
 #endif

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hooks_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/29 15:02:01 by bvasseur         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2024/07/30 16:41:55 by bvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/30 07:53:20 by amolbert         ###   ########.fr       */
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +51,12 @@ void	ft_loop_hook(void *param)
 
 	cb = (t_cub *)param;
 	draw_map(cb, cb->minimap);
+<<<<<<< HEAD
+=======
 	check_player_collision(cb, cb->player, cb->entities, cb->nb_of_entities);
-	check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
+	if (cb->nb_of_items)
+		check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 	if (cb->flags & PAUSE)
 		pause_button_press(cb, 0);
 	if (cb->flags & PAUSE)
@@ -56,7 +64,10 @@ void	ft_loop_hook(void *param)
 	update_player_facing(cb);
 	change_pos(cb);
 	move_enemy(cb);
+	check_player_collision(cb, cb->player, cb->entities, cb->nb_of_entities);
+	check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
 	animate_weapon(cb);
+	animate_doors(cb);
 	player_step_sound(cb);
 	raycaster(cb);
 }
@@ -77,6 +88,7 @@ void	ft_key_hook(mlx_key_data_t keydata, void *param)
 		cb->flags ^= LIGHT_ON;
 	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
 		change_map_state(cb, 0, 0, 0);
+	god_mod(cb, keydata);
 }
 
 void	ft_mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
@@ -91,6 +103,8 @@ void	ft_mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
 	else if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_RELEASE
 		&& cb->flags & MOUSE_PRESSED)
 		cb->flags ^= MOUSE_PRESSED;
+	if (cb->flags & DEAD)
+		return ;
 	if (cb->flags & PAUSE && button == MLX_MOUSE_BUTTON_LEFT && \
 		action == MLX_PRESS)
 		pause_button_press(cb, action);

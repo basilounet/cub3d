@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_param_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 08:41:48 by amolbert          #+#    #+#             */
-/*   Updated: 2024/07/16 16:21:54 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/31 08:55:55 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	check_param_path(t_cub *cb, char **line, int *status, int k)
 			}
 		}
 		free_array(line);
-		error(cb, PATH_ERROR);         
+		error(cb, PATH_ERROR);
 	}
 	return (0);
 }

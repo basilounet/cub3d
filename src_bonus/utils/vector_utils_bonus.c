@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:03:38 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/28 18:37:09 by bvasseur         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2024/07/30 16:38:58 by bvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/31 09:16:11 by amolbert         ###   ########.fr       */
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +24,6 @@ t_vector	set_vector(double x, double y)
 	result_vector.y = y;
 	return (result_vector);
 }
-
-
 
 double	vector_length(t_vector vec)
 {

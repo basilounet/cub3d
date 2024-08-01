@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/29 13:23:18 by bvasseur         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2024/07/29 20:48:51 by bvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/31 09:09:17 by amolbert         ###   ########.fr       */
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +37,6 @@ void	check_map(t_cub *cb)
 	check_blank_line(cb);
 	check_char(cb);
 	check_closed_map(cb);
-}
-
-void	save_entities(t_cub *cb, int i, int	*k)
-{
-	int	j;
-
-	j = -1;
-	while (cb->map.map[i][++j])
-	{
-		if (cb->map.map[i][j] == 'I')
-		{
-			cb->entities[*k].pos = set_vector(j, i);
-			cb->entities[*k].texture = cb->map.item_texture;
-			cb->entities[*k].type = ITEM;
-			cb->nb_of_items++;
-			(*k)++;
-		}
-		else if (cb->map.map[i][j] == 'M')
-		{
-			cb->entities[*k].pos = set_vector(j, i);
-			cb->entities[*k].facing = set_vector(1, 0);
-			cb->entities[*k].fov = 90;
-			cb->entities[*k].speed = ENEMY_SPEED;
-			cb->entities[*k].player_dist = 0;
-			cb->entities[*k].texture = cb->map.enemy_texture;
-			cb->entities[*k].type = ENEMY;
-			(*k)++;
-		}
-	}
 }
 
 void	set_entities(t_cub *cb)
@@ -99,7 +74,7 @@ static void	set_doors(t_cub *cb)
 		{
 			if (cb->map.map[i][j] == 'D')
 				cb->doors[count++] = (t_door){{j, i}, cb->map.map[i][j + 1] == \
-				'1' && cb->map.map[i][j + 1] == '1', CLOSE, 0, 0.5};
+				'1' && cb->map.map[i][j + 1] == '1', CLOSE, 1, 0.5};
 			j++;
 		}
 		i++;

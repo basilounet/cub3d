@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   movment_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/28 18:36:48 by bvasseur         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2024/07/30 11:58:49 by bvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/31 09:17:16 by amolbert         ###   ########.fr       */
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +23,11 @@ static void	update_vertical_player_facing(t_cub *cb, int y)
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_DOWN))
 		y += cb->player.key_rotation_speed * 1000;
 	cb->player.pitch = ft_clamp(cb->player.pitch - ((y - cb->mlx->height / 2) \
-		* (cb->player.mouse_rotation_speed * 1000)), -HEIGHT / 2, HEIGHT / 2);	
+<<<<<<< HEAD
+		* (cb->player.mouse_rotation_speed * 1000)), -HEIGHT / 2, HEIGHT / 2);
+=======
+	* (cb->player.mouse_rotation_speed * 1000)), -HEIGHT / 2, HEIGHT / 2);
+>>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 }
 
 void	update_player_facing(t_cub *cb)
@@ -56,6 +64,8 @@ t_vector	clip_to_wall(t_cub *cb, t_vector old_pos, t_vector pos)
 	if (pos.y - .1 < 0 || pos.y + .1 >= cb->map.height || pos.x - .1 < 0 || \
 		pos.x + .1 >= ft_strlen(cb->map.map[(int)pos.y]))
 		return (old_pos);
+	if (cb->flags & GOD)
+		return (new_pos);
 	if (cb->map.map[(int)(pos.y + .1)][(int)pos.x] == '1')
 		new_pos.y = ceil(pos.y) - .1;
 	if (cb->map.map[(int)(pos.y - .1)][(int)pos.x] == '1')
@@ -91,8 +101,8 @@ void	change_pos(t_cub *cb)
 				+ lateral.y * MOVE_SPEED);
 	new_pos = set_vector(cb->player.pos.x + offset.x, cb->player.pos.y + \
 		offset.y);
-	if (new_pos.y >= 0 && new_pos.y < cb->map.height && new_pos.x >= 0
-		&& new_pos.x < ft_strlen(cb->map.map[(int)new_pos.y]))
+	if (new_pos.y >= 0 && new_pos.y < cb->map.height && \
+		new_pos.x >= 0 && new_pos.x < ft_strlen(cb->map.map[(int)new_pos.y]))
 		cb->player.pos = clip_to_wall(cb, cb->player.pos, new_pos);
 	if (offset.x != 0 || offset.y != 0)
 		cb->player.jiggle += JIGGLE_SPEED;

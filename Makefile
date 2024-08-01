@@ -39,8 +39,11 @@ SRC_B =	utils/utils_bonus.c \
 		pause/buttons_callback.c \
 		pause/sliders_callback_bonus.c \
 		execution/raycaster_bonus.c \
+		execution/colors_bonus.c \
+		execution/doors_ray_bonus.c \
 		execution/movment_bonus.c \
 		execution/ft_hooks_bonus.c \
+		execution/doors_animations_bonus.c \
 		utils/vector_utils_bonus.c \
 		drawing/minimap_bonus.c \
 		drawing/draw_lines_bonus.c \
