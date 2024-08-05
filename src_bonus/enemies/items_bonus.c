@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:32:14 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/19 15:37:41 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:08:57 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	check_collect_items(t_cub *cb, t_player pl, t_entity *entities, int *nb)
 		if (entities[i].type == ITEM)
 		{
 			item = entities[i];
-			if (pl.pos.x > item.pos.x - .5 && pl.pos.x < item.pos.x + .5 && \
-				pl.pos.y > item.pos.y - .5 && pl.pos.y < item.pos.y + .5)
+			if (pl.pos.x > item.pos.x - .75 && pl.pos.x < item.pos.x + .75 && \
+				pl.pos.y > item.pos.y - .75 && pl.pos.y < item.pos.y + .75)
 			{
 				j = i;
 				while (j < *nb)

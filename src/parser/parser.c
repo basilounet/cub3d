@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:32:52 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/28 15:27:42 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:20:24 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,4 @@ void	parse(t_cub *cb, char *arg)
 	set_param(cb);
 	check_param(cb);
 	check_map(cb);
-	ft_print_map(cb->map.map, 1);
 }

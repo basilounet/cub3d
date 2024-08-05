@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 11:30:18 by bvasseur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/30 16:12:08 by bvasseur         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/31 09:09:36 by amolbert         ###   ########.fr       */
->>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
+/*   Created: 2024/07/31 15:51:35 by amolbert          #+#    #+#             */
+/*   Updated: 2024/07/31 16:54:23 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +29,15 @@
 # define JIGGLE_SPEED			0.2
 # define JIGGLE_FORCE			15
 # define ENEMY_SPEED			0.025
-# define ENEMY_AGRO_RANGE		4.5
+# define ENEMY_AGRO_RANGE		5
 # define PAUSE_MENU_COLOR		0xE0A060B0
 # define DOOR_OPENING_SPEED		0.02
-# define DOOR_OPENING_DISTANCE	3.5
+# define DOOR_OPENING_DISTANCE	4
+# define DOOR_OPENING_DISTANCE_ENTITIES_DIVISOR	2
 # define FOG_DISTANCE			7
 # define FOG					0x0
-# define LIGHT_SIZE				0.25
-# define LIGHT_DISTANCE_MULTIPLIER 8
+# define LIGHT_SIZE				0.2
+# define LIGHT_DISTANCE_MULTIPLIER 2
 
 # define PAUSE					0b1
 # define MOUSE_PRESSED			0b10
@@ -135,7 +132,7 @@ typedef struct s_pause
 	int					sliders_count;
 }						t_pause;
 
-typedef	struct s_door
+typedef struct s_door
 {
 	t_vector			pos;
 	short				side;
@@ -187,7 +184,7 @@ typedef struct s_player
 
 typedef struct s_entity
 {
-    t_vector			pos;
+	t_vector			pos;
 	t_vector			facing;
 	int					fov;
 	int					type;
@@ -200,20 +197,20 @@ typedef struct s_raycaster_entity
 {
 	int					stripe;
 	int					y;
-	double				invDet;
-	double				transformX;
-	double				transformY;
-	double				spriteX;
-	double				spriteY;
-	int					spriteScreenX;
-	int					spriteHeight;
-    int					drawStartY;
-    int					drawEndY;
-	int					spriteWidth;
-	int					drawStartX;
-	int					drawEndX;
-	int 				texX;
-	int 				texY;
+	double				inv_det;
+	double				transform_x;
+	double				transform_y;
+	double				sprite_x;
+	double				sprite_y;
+	int					sprite_screen_x;
+	int					sprite_height;
+	int					draw_start_y;
+	int					draw_end_y;
+	int					sprite_width;
+	int					draw_start_x;
+	int					draw_end_x;
+	int					tex_x;
+	int					tex_y;
 	t_entity			entity;
 }						t_raycaster_entity;
 
@@ -272,10 +269,10 @@ typedef struct s_cub
 	t_minimap			minimap;
 	t_pause				pause;
 	double				z_buffer[WIDTH];
-    int                 nb_of_entities;
+	int					nb_of_entities;
 	int					nb_of_items;
 	int					count_items;
-    t_entity            *entities;
+	t_entity			*entities;
 	t_door				*doors;
 	int					nb_of_doors;
 }						t_cub;
@@ -289,9 +286,6 @@ typedef struct s_bresenham
 	int					err;
 	int					e2;
 }						t_bresenham;
-
-
-void					check_collect_items(t_cub *cb, t_player pl, t_entity *entities, int *nb);
 
 /*=============== DOOR ===============*/
 
@@ -345,9 +339,10 @@ void					save_color(t_cub *cb, char *color, int count, char *id);
 /*=============== PARSER ===============*/
 
 void					parse(t_cub *cb, char *arg);
-void					fill_map(char **map, int i, int j, int len);
+void					fill_map(t_cub *cb, int i, int j, int len);
 void					load_png(t_cub *cb);
 void					save_entities(t_cub *cb, int i, int	*k);
+int						is_impediment(char c);
 
 /*=============== RAYTCASTER ===============*/
 
@@ -375,7 +370,8 @@ void					ft_mouse_hook(mouse_key_t button, action_t action,
 /*=============== LIGHT	 ===============*/
 
 double					get_light_percentage(int x, int y);
-int						get_color(t_cub *cb, t_raycaster *ray, mlx_texture_t *txt);
+int						get_color(t_cub *cb, t_raycaster *ray, \
+							mlx_texture_t *txt);
 
 /*=============== SOUNDS	 ===============*/
 
@@ -388,7 +384,8 @@ void					kill_sounds(void);
 void					try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y,
 							int color);
 void					draw_map(t_cub *cb, t_minimap mm);
-void						change_map_state(t_cub *cb, int action, double w, double h);
+void					change_map_state(t_cub *cb, int action, \
+							double w, double h);
 void					draw_rectangle(mlx_image_t *img, t_vector pos,
 							t_vector size, int color);
 void					draw_empty_rectangle(mlx_image_t *img, t_vector pos,
@@ -408,8 +405,8 @@ int						is_in_button(t_cub *cb, t_vector pos, t_vector size);
 void					pause_button_press(t_cub *cb, action_t action);
 void					place_buttons(t_cub *cb);
 void					update_slider_values(t_cub *cb, t_slider *slider);
-void					create_button(t_cub *cb, t_button sketch, t_button *final);
-
+void					create_button(t_cub *cb, t_button sketch, \
+							t_button *final);
 
 /*=============== CALLBACKS ===============*/
 
@@ -424,7 +421,8 @@ void					scale_1_1(t_cub *cb);
 
 void					fov_slider(t_cub *cb, t_slider *slider);
 void					mouse_sensisibility_slider(t_cub *cb, t_slider *slider);
-void					keyboard_sensisibility_slider(t_cub *cb, t_slider *slider);
+void					keyboard_sensisibility_slider(t_cub *cb, \
+							t_slider *slider);
 void					mm_width_slider(t_cub *cb, t_slider *slider);
 void					mm_height_slider(t_cub *cb, t_slider *slider);
 void					mm_zoom_slider(t_cub *cb, t_slider *slider);
@@ -437,14 +435,20 @@ void					ceiling_blue_slider(t_cub *cb, t_slider *slider);
 void					mm_pos_x_slider(t_cub *cb, t_slider *slider);
 void					mm_pos_y_slider(t_cub *cb, t_slider *slider);
 
-/*=============== ENEMIES ===============*/
+/*=============== ENTITIES ===============*/
 
 void					move_enemy(t_cub *cb);
 void					sort_entities(t_cub *cb, t_entity *entities, int nb);
-void					raycaster_entities(t_cub *cb, t_player pl, t_entity *entities, int nb);
-int						is_player_in_vision(t_player player, t_entity enemy, int fov);
-void					check_player_collision(t_cub *cb, t_player pl, t_entity *entities, int nb);
-void					update_pos(t_cub *cb, t_vector *new_pos, t_vector pos, t_vector old_pos);
+void					raycaster_entities(t_cub *cb, t_player \
+							pl, t_entity *entities, int nb);
+int						is_player_in_vision(t_player player, \
+							t_entity enemy, int fov);
+void					check_player_collision(t_cub *cb, t_player pl, \
+							t_entity *entities, int nb);
+void					update_pos(t_cub *cb, t_vector *new_pos, \
+							t_vector pos, t_vector old_pos);
+void					check_collect_items(t_cub *cb, t_player pl, \
+							t_entity *entities, int *nb);
 
 /*=============== UTILS ===============*/
 
@@ -455,7 +459,6 @@ double					dot_product(t_vector v1, t_vector v2);
 void					free_array(char **array);
 int						find_max_len(char **file, int start, int height);
 int						is_in_bounds(int x, int y, int width, int height);
-
 
 /*=============== UNLEAK ===============*/
 
@@ -470,15 +473,8 @@ void					error(t_cub *cb, int error_num);
 
 # define GOD 0b10000000000000000000000000000000
 # define STRING uint_least32_t
-# define INPUT static
-# define MAIN const
-# define BUFFER god[10]
-# define ELSE =
-# define EXPAND '`' +
-# define EXPIRE {'P'
-# define WILDCARD - '$'
-# define STACK (short)
-# define MAXINT '(' + '\r' + 'H' WILDCARD,
+# define BUFFER god
+
 void					god_mod(t_cub *cb, mlx_key_data_t key);
 
 #endif

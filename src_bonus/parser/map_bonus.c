@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:47:09 by amolbert          #+#    #+#             */
-/*   Updated: 2024/07/17 10:51:51 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:45:39 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static int	check_space(t_cub *cb, int start, int j, int len)
 {
-	if (cb->map.height_file - start < cb->map.height)
-		if (cb->map.file[start - 1][j] == '0')
+	if (start > cb->map.height_file - cb->map.height)
+		if (!is_impediment(cb->map.file[start - 1][j]))
 			return (1);
-	if (cb->map.height_file - start < 0)
-		if (cb->map.file[start + 1][j] == '0')
+	if (start < cb->map.height_file - 1)
+		if (!is_impediment(cb->map.file[start + 1][j]))
 			return (1);
 	if (j > 0)
-		if (cb->map.file[start][j - 1] == '0')
+		if (!is_impediment(cb->map.file[start][j - 1]))
 			return (1);
 	if (j < len - 1)
-		if (cb->map.file[start][j + 1] == '0')
+		if (!is_impediment(cb->map.file[start][j + 1]))
 			return (1);
 	return (0);
 }
 
-static void	copy_map(t_cub *cb, char **map, int start, int len)
+static void	copy_map(t_cub *cb, int start, int len)
 {
 	int			j;
 	static int	i = 0;
@@ -39,47 +39,45 @@ static void	copy_map(t_cub *cb, char **map, int start, int len)
 	{
 		if (cb->map.file[start][j] != '\n' && cb->map.file[start][j] != ' ')
 		{
-			map[i][j] = cb->map.file[start][j];
+			cb->map.map[i][j] = cb->map.file[start][j];
 			if (cb->map.file[start][j] == 'I' || cb->map.file[start][j] == 'M')
 				cb->nb_of_entities++;
 		}
 		else if (cb->map.file[start][j] == ' ')
 		{
 			if (check_space(cb, start, j, len))
-				map[i][j] = '1';
+				cb->map.map[i][j] = '1';
 			else
-				map[i][j] = ' ';
+				cb->map.map[i][j] = ' ';
 		}
 		else
-			map[i][j] = '\0';
+			cb->map.map[i][j] = '\0';
 		j++;
 	}
-	fill_map(map, i, j, len);
+	fill_map(cb, i, j, len);
 	i++;
 }
 
-static char	**extract_map(t_cub *cb, int start)
+void	extract_map(t_cub *cb, int start)
 {
 	int		i;
 	int		len;
-	char	**map;
 
 	i = 0;
-	map = ft_calloc(sizeof(char *), (cb->map.height + 1));
-	if (!map)
-		return (NULL);
+	cb->map.map = ft_calloc(sizeof(char *), (cb->map.height + 1));
+	if (!cb->map.map)
+		error(cb, MALLOC_ERROR);
 	len = find_max_len(cb->map.file, start, cb->map.height);
 	while (i < cb->map.height)
 	{
-		map[i] = malloc(sizeof(char) * (len + 1));
-		if (!map[i])
+		cb->map.map[i] = malloc(sizeof(char) * (len + 1));
+		if (!cb->map.map[i])
 			error(cb, MALLOC_ERROR);
-		map[i][len] = '\0';
-		copy_map(cb, map, start, len);
+		cb->map.map[i][len] = '\0';
+		copy_map(cb, start, len);
 		start++;
 		i++;
 	}
-	return (map);
 }
 
 static int	save_height(t_cub *cb, int i, int height_file)
@@ -112,7 +110,5 @@ void	save_map(t_cub *cb, int height_file)
 	}
 	if (!cb->map.height)
 		error(cb, HEIGHT_ERROR);
-	cb->map.map = extract_map(cb, i);
-	if (!cb->map.map)
-		error(cb, MALLOC_ERROR);
+	extract_map(cb, i);
 }

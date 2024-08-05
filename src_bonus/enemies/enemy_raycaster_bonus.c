@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_raycaster_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:32:32 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/30 16:38:31 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:13:24 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	get_entity_color(t_cub *cb, t_raycaster_entity ray, \
 {
 	double	fog_percentage;
 	double	light_percentage;
+	int		color;
 
 	light_percentage = 0;
 	if (cb->flags & LIGHT_ON)
@@ -56,41 +57,44 @@ static int	get_entity_color(t_cub *cb, t_raycaster_entity ray, \
 		light_percentage = get_light_percentage(ray.stripe, ray.y);
 	fog_percentage = ft_fclamp(ray.entity.player_dist / (FOG_DISTANCE + \
 		light_percentage * LIGHT_DISTANCE_MULTIPLIER * FOG_DISTANCE), 0, 1);
-	return ((int)((1 - fog_percentage) * txt->pixels[txt->width * ray.texY * 4 \
-		+ ft_abs(ray.texX - txt->width + 1) * 4] + fog_percentage * (FOG >> 24 \
-		& 255)) << 24 | (int)((1 - fog_percentage) * txt->pixels[txt->width * \
-		ray.texY * 4 + ft_abs(ray.texX - txt->width + 1) * 4 + 1] + \
-		fog_percentage * (FOG >> 16 & 255)) << 16 | (int)((1 - fog_percentage) \
-		* txt->pixels[txt->width * ray.texY * 4 + ft_abs(ray.texX - txt->width \
-		+ 1) * 4 + 2] + fog_percentage * (FOG >> 8 & 255)) << 8 | \
-		txt->pixels[txt->width * ray.texY * 4 + ft_abs(ray.texX - txt->width + \
-		1) * 4 + 3]);
+	color = (int)((1 - fog_percentage) * txt->pixels[txt->width * ray.tex_y * 4 \
+		+ ft_abs(ray.tex_x - txt->width + 1) * 4] + fog_percentage * (FOG >> 24 \
+		& 255)) << 24;
+	color |= (int)((1 - fog_percentage) * txt->pixels[txt->width * \
+		ray.tex_y * 4 + ft_abs(ray.tex_x - txt->width + 1) * 4 + 1] + \
+		fog_percentage * (FOG >> 16 & 255)) << 16;
+	color |= (int)((1 - fog_percentage) * txt->pixels[txt->width * ray.tex_y * \
+		4 + ft_abs(ray.tex_x - txt->width + 1) * 4 + 2] + fog_percentage * \
+		(FOG >> 8 & 255)) << 8;
+	color |= txt->pixels[txt->width * ray.tex_y * 4 + ft_abs(ray.tex_x - \
+		txt->width + 1) * 4 + 3];
+	return (color);
 }
 
 static void	entities_raycaster_set_var(t_player pl, \
 	t_raycaster_entity *ray)
 {
-	ray->spriteX = ray->entity.pos.x - pl.pos.x;
-	ray->spriteY = ray->entity.pos.y - pl.pos.y;
-	ray->invDet = 1.0 / (pl.plane.x * pl.facing.y - \
+	ray->sprite_x = ray->entity.pos.x - pl.pos.x;
+	ray->sprite_y = ray->entity.pos.y - pl.pos.y;
+	ray->inv_det = 1.0 / (pl.plane.x * pl.facing.y - \
 		pl.facing.x * pl.plane.y);
-	ray->transformX = ray->invDet * (pl.facing.y * ray->spriteX - pl.facing.x \
-		* ray->spriteY);
-	ray->transformY = ray->invDet * (-pl.plane.y * ray->spriteX + pl.plane.x \
-		* ray->spriteY);
-	ray->spriteScreenX = (int)((WIDTH / 2) * (1 + ray->transformX / \
-		ray->transformY));
-	ray->spriteHeight = ft_abs((int)(HEIGHT / (ray->transformY)));
-	ray->drawStartY = -ray->spriteHeight / 2 + HEIGHT / 2;
-	ray->drawEndY = ray->spriteHeight / 2 + HEIGHT / 2;
-	ray->spriteWidth = ft_abs((int)(HEIGHT / (ray->transformY)));
-	ray->drawStartX = -ray->spriteWidth / 2 + ray->spriteScreenX;
-	if (ray->drawStartX < 0)
-		ray->drawStartX = 0;
-	ray->drawEndX = ray->spriteWidth / 2 + ray->spriteScreenX;
-	if (ray->drawEndX >= WIDTH)
-		ray->drawEndX = WIDTH - 1;
-	ray->stripe = ray->drawStartX;
+	ray->transform_x = ray->inv_det * (pl.facing.y * ray->sprite_x - \
+		pl.facing.x * ray->sprite_y);
+	ray->transform_y = ray->inv_det * (-pl.plane.y * ray->sprite_x + pl.plane.x \
+		* ray->sprite_y);
+	ray->sprite_screen_x = (int)((WIDTH / 2) * (1 + ray->transform_x / \
+		ray->transform_y));
+	ray->sprite_height = ft_abs((int)(HEIGHT / (ray->transform_y)));
+	ray->draw_start_y = -ray->sprite_height / 2 + HEIGHT / 2;
+	ray->draw_end_y = ray->sprite_height / 2 + HEIGHT / 2;
+	ray->sprite_width = ft_abs((int)(HEIGHT / (ray->transform_y)));
+	ray->draw_start_x = -ray->sprite_width / 2 + ray->sprite_screen_x;
+	if (ray->draw_start_x < 0)
+		ray->draw_start_x = 0;
+	ray->draw_end_x = ray->sprite_width / 2 + ray->sprite_screen_x;
+	if (ray->draw_end_x >= WIDTH)
+		ray->draw_end_x = WIDTH - 1;
+	ray->stripe = ray->draw_start_x;
 }
 
 static void	draw_stripe(t_cub *cb, t_raycaster_entity *ray)
@@ -98,18 +102,18 @@ static void	draw_stripe(t_cub *cb, t_raycaster_entity *ray)
 	uint32_t	color;
 	int			d;
 
-	ray->texX = (int)(256 * (ray->stripe - (-ray->spriteWidth / 2 + \
-		ray->spriteScreenX)) * ray->entity.texture->width / \
-		ray->spriteWidth) / 256;
-	if (ray->transformY > 0 && ray->stripe > 0 && ray->stripe < WIDTH && \
-		ray->transformY < cb->z_buffer[ray->stripe])
+	ray->tex_x = (int)(256 * (ray->stripe - (-ray->sprite_width / 2 + \
+		ray->sprite_screen_x)) * ray->entity.texture->width / \
+		ray->sprite_width) / 256;
+	if (ray->transform_y > 0 && ray->stripe > 0 && ray->stripe < WIDTH && \
+		ray->transform_y < cb->z_buffer[ray->stripe])
 	{
-		ray->y = ray->drawStartY;
-		while (ray->y < ray->drawEndY)
+		ray->y = ray->draw_start_y;
+		while (ray->y < ray->draw_end_y)
 		{
-			d = (ray->y) * 256 - HEIGHT * 128 + ray->spriteHeight * 128;
-			ray->texY = ((d * ray->entity.texture->height) / \
-				ray->spriteHeight) / 256;
+			d = (ray->y) * 256 - HEIGHT * 128 + ray->sprite_height * 128;
+			ray->tex_y = ((d * ray->entity.texture->height) / \
+				ray->sprite_height) / 256;
 			color = get_entity_color(cb, *ray, ray->entity.texture);
 			if (color & 0xFF)
 				try_put_pixel(cb->image, ray->stripe, ray->y + \
@@ -132,7 +136,7 @@ void	raycaster_entities(t_cub *cb, t_player pl, t_entity *entities, int nb)
 	{
 		ray.entity = entities[i];
 		entities_raycaster_set_var(pl, &ray);
-		while (ray.stripe < ray.drawEndX)
+		while (ray.stripe < ray.draw_end_x)
 		{
 			draw_stripe(cb, &ray);
 			ray.stripe++;

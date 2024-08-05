@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 08:41:48 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/26 08:42:37 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:48:37 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ int	check_param2(t_cub *cb, int i)
 	if (!line)
 		error(cb, MALLOC_ERROR);
 	if (ft_maplen(line) > 2 && line[2][0] != '\n')
+	{
+		free_array(line);
 		error(cb, TOO_MANY_ARG_ON_LINE);
+	}
 	if (!ft_strncmp(line[0], "1", 1))
 	{
 		free_array(line);

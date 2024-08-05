@@ -1,16 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movment_bonus.c                                    :+:      :+:    :+:   */
+/*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 14:46:25 by bvasseur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/30 11:58:49 by bvasseur         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/31 09:17:16 by amolbert         ###   ########.fr       */
->>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
+/*   Created: 2024/07/31 16:09:26 by amolbert          #+#    #+#             */
+/*   Updated: 2024/07/31 16:09:28 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +19,7 @@ static void	update_vertical_player_facing(t_cub *cb, int y)
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_DOWN))
 		y += cb->player.key_rotation_speed * 1000;
 	cb->player.pitch = ft_clamp(cb->player.pitch - ((y - cb->mlx->height / 2) \
-<<<<<<< HEAD
 		* (cb->player.mouse_rotation_speed * 1000)), -HEIGHT / 2, HEIGHT / 2);
-=======
-	* (cb->player.mouse_rotation_speed * 1000)), -HEIGHT / 2, HEIGHT / 2);
->>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 }
 
 void	update_player_facing(t_cub *cb)

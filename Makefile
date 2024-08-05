@@ -11,7 +11,7 @@ SRC =	utils/utils.c \
 		parser/map.c \
 		execution/raycaster.c \
 		execution/raycaster_utils.c \
-		execution/movment.c \
+		execution/movement.c \
 		execution/ft_hooks.c \
 		utils/vector_utils.c \
 		drawing/draw_shapes.c \
@@ -41,7 +41,7 @@ SRC_B =	utils/utils_bonus.c \
 		execution/raycaster_bonus.c \
 		execution/colors_bonus.c \
 		execution/doors_ray_bonus.c \
-		execution/movment_bonus.c \
+		execution/movement_bonus.c \
 		execution/ft_hooks_bonus.c \
 		execution/doors_animations_bonus.c \
 		utils/vector_utils_bonus.c \

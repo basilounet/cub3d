@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:34:05 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/29 21:21:27 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:23:03 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	launch_mlx(t_cub *cb)
 	mlx_image_to_window(cb->mlx, cb->minimap.image, 10, 10);
 	display_weapon(cb);
 	create_pause_screen(cb);
-	scale_2_3(cb);
+	scale_1_1(cb);
 	mlx_key_hook(cb->mlx, ft_key_hook, cb);
 	mlx_mouse_hook(cb->mlx, ft_mouse_hook, cb);
 	mlx_loop_hook(cb->mlx, ft_loop_hook, cb);

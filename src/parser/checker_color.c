@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:18:54 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/25 16:21:53 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:01:14 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	check_size_arg(char *arg)
 	return (0);
 }
 
-static int	check_color3(char **color, int j)
+static int	check_color_digit(char **color, int j)
 {
 	int	k;
 
@@ -59,7 +59,7 @@ static int	check_color2(t_cub *cb, char **color, int *count, char *id)
 	{
 		if (color[j][0] == '\n')
 			break ;
-		if (check_color3(color, j))
+		if (check_color_digit(color, j))
 			return (1);
 		if (check_size_arg(color[j]))
 			return (1);
@@ -80,6 +80,8 @@ int	check_color(t_cub *cb, char **line, char *id)
 	count = 0;
 	while (line[i])
 	{
+		if (ft_countc(line[i], ',') != 2)
+			return (1);
 		color = ft_split(line[i], ',');
 		if (!color)
 			return (2);

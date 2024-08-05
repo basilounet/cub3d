@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_ai_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:32:14 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/30 12:58:35 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:45:04 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_player_collision(t_cub *cb, t_player pl, t_entity *entities, \
 	int			i;
 
 	i = -1;
-	while (++i < nb && (cb->flags & GOD) == 0)
+	while (++i < nb && (cb->flags & GOD) == 0 && (cb->flags & PAUSE) == 0)
 	{
 		if (entities[i].type == ENEMY)
 		{
@@ -66,8 +66,6 @@ void	check_player_collision(t_cub *cb, t_player pl, t_entity *entities, \
 				pl.pos.y > enemy.pos.y - .55 && pl.pos.y < enemy.pos.y + .55)
 			{
 				cb->flags |= DEAD;
-				if (count == 0)
-					cb->flags ^= PAUSE;
 				mlx_image_to_window(cb->mlx, cb->map.death_image, 0, 0);
 				count++;
 				usleep(40000);

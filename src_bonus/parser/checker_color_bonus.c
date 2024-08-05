@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_color_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvasseur <bvasseur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:18:54 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/27 13:10:27 by bvasseur         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:01:55 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	check_color(t_cub *cb, char **line, char *id)
 	count = 0;
 	while (line[i])
 	{
+		if (ft_countc(line[i], ',') != 2)
+			return (1);
 		color = ft_split(line[i], ',');
 		if (!color)
 			return (2);

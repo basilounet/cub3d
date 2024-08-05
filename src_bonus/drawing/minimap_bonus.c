@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:47:17 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/17 13:48:59 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:25:10 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_enemies(t_cub *cb, t_minimap mm)
 				ft_clamp((cb->entities[i].pos.y - cb->player.pos.y + mm.height \
 				/ mm.square_size / 2) * mm.square_size, 0, mm.height - \
 				mm.square_size / 4)), cb->entities[i].facing, \
-				(cb->map.floor_color ^ cb->map.ceiling_color) | 0xFF);
+				~cb->map.ceiling_color | 0xFF);
 	}
 }
 

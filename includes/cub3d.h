@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:53 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/07/19 10:41:23 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:16:30 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_raycaster
 	double			tex_pos;
 	int				tex_y;
 	int				color;
-	double 			wall_x;
+	double			wall_x;
 }					t_raycaster;
 
 typedef struct s_player
@@ -153,8 +153,10 @@ void				parse(t_cub *cb, char *arg);
 
 void				raycaster(t_cub *cb);
 mlx_texture_t		*get_wall_texture(t_cub *cb, t_raycaster *ray);
-void				try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, int color);
-void				print_pixel(t_cub *cb, t_raycaster *ray, int x, mlx_texture_t *txt);
+void				try_put_pixel(mlx_image_t *img, uint32_t x, uint32_t y, \
+					int color);
+void				print_pixel(t_cub *cb, t_raycaster *ray, int x, \
+					mlx_texture_t *txt);
 
 /*=============== MOVEMENT ===============*/
 
@@ -180,6 +182,7 @@ void				draw_empty_rectangle(mlx_image_t *img, t_vector pos,
 t_vector			set_vector(double x, double y);
 void				free_array(char **array);
 int					find_max_len(char **file, int start, int height);
+int					is_impediment(char c);
 
 /*=============== UNLEAK ===============*/
 

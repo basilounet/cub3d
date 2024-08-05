@@ -6,11 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:47:10 by bvasseur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/30 16:41:55 by bvasseur         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/30 07:53:20 by amolbert         ###   ########.fr       */
->>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
+/*   Updated: 2024/07/31 16:45:27 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +47,16 @@ void	ft_loop_hook(void *param)
 
 	cb = (t_cub *)param;
 	draw_map(cb, cb->minimap);
-<<<<<<< HEAD
-=======
 	check_player_collision(cb, cb->player, cb->entities, cb->nb_of_entities);
-	if (cb->nb_of_items)
-		check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
->>>>>>> 74fd9b119d0e5b28523db29d9e062ab58f7cad87
 	if (cb->flags & PAUSE)
 		pause_button_press(cb, 0);
-	if (cb->flags & PAUSE)
+	if (cb->flags & PAUSE || cb->flags & DEAD)
 		return ;
 	update_player_facing(cb);
 	change_pos(cb);
 	move_enemy(cb);
-	check_player_collision(cb, cb->player, cb->entities, cb->nb_of_entities);
-	check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
+	if (cb->nb_of_items)
+		check_collect_items(cb, cb->player, cb->entities, &cb->nb_of_entities);
 	animate_weapon(cb);
 	animate_doors(cb);
 	player_step_sound(cb);

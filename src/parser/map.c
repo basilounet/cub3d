@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:47:09 by amolbert          #+#    #+#             */
-/*   Updated: 2024/06/28 16:47:33 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:15:45 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static int	check_space(t_cub *cb, int start, int j, int len)
 {
-	if (cb->map.height_file - start < cb->map.height)
-		if (cb->map.file[start - 1][j] == '0')
+	if (start > cb->map.height_file - cb->map.height)
+		if (!is_impediment(cb->map.file[start - 1][j]))
 			return (1);
-	if (cb->map.height_file - start < 0)
-		if (cb->map.file[start + 1][j] == '0')
+	if (start < cb->map.height_file - 1)
+		if (!is_impediment(cb->map.file[start + 1][j]))
 			return (1);
 	if (j > 0)
-		if (cb->map.file[start][j - 1] == '0')
+		if (!is_impediment(cb->map.file[start][j - 1]))
 			return (1);
 	if (j < len - 1)
-		if (cb->map.file[start][j + 1] == '0')
+		if (!is_impediment(cb->map.file[start][j + 1]))
 			return (1);
 	return (0);
 }
@@ -71,10 +71,9 @@ static char	**extract_map(t_cub *cb, int start)
 	len = find_max_len(cb->map.file, start, cb->map.height);
 	while (i < cb->map.height)
 	{
-		map[i] = malloc(sizeof(char) * (len + 1));
+		map[i] = ft_calloc(sizeof(char), (len + 1));
 		if (!map[i])
 			error(cb, MALLOC_ERROR);
-		map[i][len] = '\0';
 		copy_map(cb, map, start, len);
 		start++;
 		i++;

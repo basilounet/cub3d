@@ -6,7 +6,7 @@
 /*   By: amolbert <amolbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:33:26 by bvasseur          #+#    #+#             */
-/*   Updated: 2024/06/25 14:41:45 by amolbert         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:16:17 by amolbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ int	find_max_len(char **file, int start, int height)
 		i++;
 	}
 	return (len);
+}
+
+int	is_impediment(char c)
+{
+	return (c == '1' || c == ' ' || c == '\n' || c == '\0');
 }
